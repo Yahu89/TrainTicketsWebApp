@@ -1,0 +1,12 @@
+﻿namespace TrainTicketsWebApp.Database.Entities;
+
+public class Trip
+{
+    public int Id { get; set; }
+    public int RouteId { get; set; }
+    public Route Route { get; set; }
+    public DateTime DepartureTime { get; set; } = DateTime.Now;
+    public string TrainTypeName { get; set; }
+    public TrainType TrainType { get; set; }
+    public List<Schedule> Schedules { get; set; }
+}

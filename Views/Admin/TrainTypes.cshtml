@@ -1,0 +1,45 @@
+﻿@using TrainTicketsWebApp.Database.Entities
+@using TrainTicketsWebApp.Models.Dto
+@model List<TrainTypeDto>
+
+<h2>Rodzaje pociągów:</h2>
+<br />
+
+<table class="table table-bordered table-striped" style="width: 100%">
+	<thead>
+		<tr>
+			<th>
+				Rodzaj pociągu
+			</th>
+			<th>
+				Rodzaj pociągu (pełna nazwa)
+			</th>
+			<th>
+				Dostępnych miejsc
+			</th>
+			<th>
+				Prędkość [km/h]
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@item.ShortName
+				</td>
+				<td>
+					@item.LongName
+				</td>
+				<td>
+					@item.TotalPlacesAvailable
+				</td>
+				<td>
+					@item.Speed
+				</td>
+			</tr>
+		}
+
+	</tbody>
+</table>

@@ -1,0 +1,26 @@
+﻿@using TrainTicketsWebApp.Database.Entities
+@model List<TrainStation>
+
+<h2>Stacje:</h2>
+<br />
+
+<table class="table table-bordered table-striped" style="width: 100%">
+<thead>
+	<tr>
+		<th>
+			Stacja
+		</th>
+	</tr>
+</thead>
+<tbody>
+	@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@item.Station
+				</td>
+			</tr>
+		}
+
+</tbody>
+</table>

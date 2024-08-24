@@ -1,0 +1,17 @@
+﻿@using TrainTicketsWebApp.CQRS.Commands.Station
+@using TrainTicketsWebApp.Models.Dto
+@model CreateTrainStationCommand
+
+<h2>Dodawanie stacji:</h2>
+<br />
+
+<form method="post" class="row" asp-controller="Admin" asp-action="CreateStation">
+	<label class="ms-2 pb-2" asp-for="Station">Nazwa stacji</label>
+	<input class="form-control border-0 shadow mb-2" asp-for="Station" />
+	<span class="text-danger" asp-validation-for="Station"></span>
+
+	<button type="submit" class="btn btn-success form-control mb-2">Dodaj</button>
+	
+</form>
+
+<a class="btn btn-secondary" asp-controller="Admin" asp-action="Stations">Wróć do listy</a>
