@@ -144,3 +144,4 @@ C:\Users\Yahu\source\repos\TrainTicketsWebApp\TrainTicketsWebApp\bin\Debug\net8.
 C:\Users\Yahu\source\repos\TrainTicketsWebApp\TrainTicketsWebApp\obj\Debug\net8.0\TrainTicketsWebApp.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Yahu\source\repos\TrainTicketsWebApp\TrainTicketsWebApp\bin\Debug\net8.0\AutoMapper.dll
 C:\Users\Yahu\source\repos\TrainTicketsWebApp\TrainTicketsWebApp\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\Yahu\source\repos\TrainTicketsWebApp\TrainTicketsWebApp\obj\Debug\net8.0\TrainTicketsWebApp.sourcelink.json

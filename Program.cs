@@ -18,10 +18,20 @@ builder.Services.AddDbContext<TrainTicketsDbContext>(options => options.UseSqlSe
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<ITrainStationRepository, TrainStationRepository>();
 builder.Services.AddScoped<ITrainTypeRepository, TrainTypeRepository>();
+builder.Services.AddScoped<IRouteRepository, RouteRepository>();
+builder.Services.AddScoped<IRouteDetailsRepository, RouteDetailsRepository>();
+builder.Services.AddScoped<ITripRepository, TripRepository>();
+builder.Services.AddScoped<IScheduleRepository, ScheduleRepository>();
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 builder.Services.AddValidatorsFromAssemblyContaining<CreateTrainStationCommandValidator>()
+							.AddFluentValidationAutoValidation()
+							.AddFluentValidationClientsideAdapters();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateTrainTypeCommandValidator>()
+							.AddFluentValidationAutoValidation()
+							.AddFluentValidationClientsideAdapters();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateRouteCommandValidator>()
 							.AddFluentValidationAutoValidation()
 							.AddFluentValidationClientsideAdapters();
 

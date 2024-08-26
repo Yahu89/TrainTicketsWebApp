@@ -1,0 +1,54 @@
+﻿@using TrainTicketsWebApp.CQRS.Commands.TrainType
+@using TrainTicketsWebApp.Models.Dto
+@model CreateTrainTypeCommand
+
+<h2>Dodawanie rodzaju pociągu:</h2>
+<br />
+
+<form method="post" class="row" asp-controller="Admin" asp-action="CreateTrainType">
+<table class="table table-bordered table-striped" style="width: 100%">
+	<thead>
+		<tr>
+			<th>
+				Rodzaj pociągu
+			</th>
+			<th>
+				Rodzaj pociągu (pełna nazwa)
+			</th>
+			<th>
+				Dostępnych miejsc
+			</th>
+			<th>
+				Prędkość [km/h]
+			</th>
+		</tr>
+	</thead>
+	
+	<tbody>
+		
+			<tr>
+				<td>
+				<input class="form-control border-0 shadow mb-2" asp-for="ShortName" />
+				<span class="text-danger" asp-validation-for="ShortName"></span>
+				</td>
+			<td>
+				<input class="form-control border-0 shadow mb-2" asp-for="LongName" />
+				<span class="text-danger" asp-validation-for="LongName"></span>
+			</td>
+			<td>
+				<input class="form-control border-0 shadow mb-2" asp-for="TotalPlacesAvailable" />
+				<span class="text-danger" asp-validation-for="TotalPlacesAvailable"></span>
+			</td>
+			<td>
+				<input class="form-control border-0 shadow mb-2" asp-for="Speed" />
+				<span class="text-danger" asp-validation-for="Speed"></span>
+			</td>
+			</tr>
+		
+	</tbody>
+	
+</table>
+	<button type="submit" class="btn btn-success form-control mb-2">Dodaj</button>
+</form>
+
+<a class="btn btn-secondary" asp-controller="Admin" asp-action="TrainTypes">Wróć do listy</a>

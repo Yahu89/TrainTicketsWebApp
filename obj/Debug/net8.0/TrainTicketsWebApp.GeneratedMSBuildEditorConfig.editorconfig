@@ -18,12 +18,36 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\Yahu\source\repos\TrainTicketsWebApp\TrainTicketsWebApp
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/Yahu/source/repos/TrainTicketsWebApp/TrainTicketsWebApp/Views/Admin/AddRoute.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQWRkUm91dGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Yahu/source/repos/TrainTicketsWebApp/TrainTicketsWebApp/Views/Admin/AddRouteDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQWRkUm91dGVEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Yahu/source/repos/TrainTicketsWebApp/TrainTicketsWebApp/Views/Admin/AddStation.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQWRkU3RhdGlvbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Yahu/source/repos/TrainTicketsWebApp/TrainTicketsWebApp/Views/Admin/AddTrainType.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQWRkVHJhaW5UeXBlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Yahu/source/repos/TrainTicketsWebApp/TrainTicketsWebApp/Views/Admin/AddTrips.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQWRkVHJpcHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Yahu/source/repos/TrainTicketsWebApp/TrainTicketsWebApp/Views/Admin/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Yahu/source/repos/TrainTicketsWebApp/TrainTicketsWebApp/Views/Admin/RouteDetail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUm91dGVEZXRhaWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Yahu/source/repos/TrainTicketsWebApp/TrainTicketsWebApp/Views/Admin/Routes.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUm91dGVzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Yahu/source/repos/TrainTicketsWebApp/TrainTicketsWebApp/Views/Admin/Stations.cshtml]
@@ -32,6 +56,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/Yahu/source/repos/TrainTicketsWebApp/TrainTicketsWebApp/Views/Admin/TrainTypes.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVHJhaW5UeXBlcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Yahu/source/repos/TrainTicketsWebApp/TrainTicketsWebApp/Views/Admin/Trips.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVHJpcHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Yahu/source/repos/TrainTicketsWebApp/TrainTicketsWebApp/Views/Home/Index.cshtml]

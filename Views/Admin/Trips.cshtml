@@ -1,0 +1,62 @@
+﻿@using TrainTicketsWebApp.Models.Dto
+@model List<TripDto>
+
+<h2>Lista przejazdów: </h2>
+<br />
+
+<table class="table table-bordered table-striped" style="width: 100%">
+	<thead>
+		<tr>
+			<th>
+				Id
+			</th>
+			<th>
+				Nazwa trasy
+			</th>
+			<th>
+				Data odjazdu
+			</th>
+			<th>
+				Godzina odjazdu
+			</th>
+			<th>
+				Typ pociągu
+			</th>
+			<th>
+
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@item.Id
+				</td>
+				<td>
+					@item.RouteName
+				</td>
+				<td>
+					@item.DepartureDate.ToString("yyyy-MM-dd")
+				</td>
+				<td>
+					@item.DepartureTime.ToString("HH:mm")
+				</td>
+				<td>
+					@item.TrainType
+				</td>
+				<td>
+					<a class="btn btn-danger" asp-controller="Admin" asp-action="Delete">Usuń</a>
+				</td>
+			</tr>
+		}
+
+	</tbody>
+</table>
+
+<div class="container">
+	<div class="row">
+		<a class="btn btn-secondary" asp-controller="Admin" asp-action="Index">Wróć do menu</a>
+	</div>
+</div>

@@ -1,0 +1,62 @@
+﻿@using TrainTicketsWebApp.Models.Dto
+@model List<RouteDetailDto>
+
+<h2>Szczegóły trasy: </h2>
+<br />
+
+<table class="table table-bordered table-striped" style="width: 100%">
+	<thead>
+		<tr>
+			<th>
+				Nazwa trasy
+			</th>
+			<th>
+				Nr Segmentu
+			</th>
+			<th>
+				Skąd
+			</th>
+			<th>
+				Dokąd
+			</th>
+			<th>
+				Dystans [km]
+			</th>
+			<th>
+				Prędkość odcinkowa [km/h]
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@item.Name
+				</td>
+				<td>
+					@item.SegmentNumber
+				</td>
+				<td>
+					@item.From
+				</td>
+				<td>
+					@item.To
+				</td>
+				<td>
+					@item.Distance
+				</td>
+				<td>
+					@item.MaxSpeed
+				</td>
+			</tr>
+		}
+
+	</tbody>
+</table>
+
+<div class="container">
+	<div class="row">
+		<a class="btn btn-secondary" asp-controller="Admin" asp-action="Routes" >Wróć do listy</a>
+	</div>
+</div>

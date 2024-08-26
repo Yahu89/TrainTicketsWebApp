@@ -1,0 +1,208 @@
+﻿@using TrainTicketsWebApp.Models.Dto
+@model TripCreationView
+
+<h2>Dodawanie przejazdów:</h2>
+<br />
+
+@{
+	var currentDay = DateTime.Now.ToString("yyyy-MM-dd");
+	var currentTime = DateTime.Now.ToString("HH:mm");
+}
+
+<form id="form" class="row" data-url="@Url.Action("CreateTrips")">
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<input id="addSegment" type="button" class="btn btn-info form-control mb-2" value="Dodaj kolejny przejazd"></input>
+			</div>
+		</div>
+	</div>
+
+	<table id="table" class="table table-bordered table-striped" style="width: 100%">
+		<thead>
+			<tr>
+				<th>
+					Trasa
+				</th>
+				<th>
+					Data odjazdu
+				</th>
+				<th>
+					Czas odjazdu
+				</th>
+				<th>
+					Typ pociągu
+				</th>
+				<th>
+					Usuń przejazd
+				</th>
+			</tr>
+		</thead>
+
+		<tbody id="parentTable">
+
+			<tr name="item">
+				<td>
+					@Html.DropDownList("RouteId", Model.Routes, new { @class = "form-select border-0 shadow mb-2", toggle = "item-property" })
+				</td>
+				<td>
+					<input toggle="item-property" name="items-property" class="form-control border-0 shadow mb-2" type="date" value="@currentDay" />
+				</td>
+				<td>
+					<input toggle="item-property" name="items-property" class="form-control border-0 shadow mb-2" type="time" value="@currentTime" />
+					@* <h7 toggle="item-dist" id="warn" class="text-danger"></h7> *@
+				</td>
+				<td>
+					@Html.DropDownList("TrainType", Model.TrainTypes, new { @class = "form-select border-0 shadow mb-2", toggle = "item-property" })
+					@* <h7 toggle="item-speed" id="warn" class="text-danger"></h7> *@
+				</td>
+				<td>
+				</td>
+			</tr>
+
+		</tbody>
+
+	</table>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6">
+				<button id="submitButton" type="submit" class="btn btn-success form-control mb-2">Dodaj</button>
+			</div>
+			<div class="col-6">
+				<a class="btn btn-secondary" asp-controller="Admin" asp-action="Index">Wróć do listy</a>
+			</div>
+		</div>
+	</div>
+</form>
+
+@section Scripts
+{
+	<script>
+		$(document).ready(function () {
+			const addRecord = () => {
+				let row = `
+												<tr name="item">
+												<td>
+		@Html.DropDownList("RouteId", Model.Routes, new { @class = "form-select border-0 shadow mb-2", @toggle = "item-property" })
+												</td>
+												<td>
+													<input toggle="item-property" name="items-property" class="form-control border-0 shadow mb-2" type="date" value="@currentDay" />
+												</td>
+												<td>
+													<input toggle="item-property" name="items-property" class="form-control border-0 shadow mb-2" type="time" value="@currentTime" />
+												</td>
+												<td>
+		@Html.DropDownList("TrainType", Model.TrainTypes, new { @class = "form-select border-0 shadow mb-2", toggle = "item-property" })
+												</td>
+												<td>
+													<input type="button" class="btn btn-danger" value="Usuń" onclick="removeRecord(this)"/>
+												</td>
+												</tr>
+													`;
+
+				$('#table tr:last').after(row);
+			}
+
+			$('#addSegment').click(() => {
+				
+				addRecord();
+			});
+
+			$('#submitButton').click((e) => {
+				//e.preventDefault;
+				onSubmit();
+			});
+		});
+
+		const onSubmit = () => {
+
+			// $('h7[id="warn"]').text('');
+			// let isCorrectData = true;
+			let form = {};
+
+			const items = $('tr[name="item"]');
+
+
+			const elements = [];
+			let itemArray = [];
+
+			$.each(items, function () {
+
+				const properties = $(this).find('[toggle="item-property"]');
+				const item = {};
+				let i = 0;
+
+				$.each(properties, function (index, element) {
+					if (i === 0) {
+						item.routeId = $(element).val();
+						itemArray.push(item.routeId);
+					}
+
+					if (i === 1) {
+						item.departureDate = $(element).val();
+						itemArray.push(item.departureDate);
+					}
+
+					if (i === 2) {
+						item.departureTime = $(element).val();
+						itemArray.push(item.departureTime);
+
+						//let c = parseInt(item.distance);
+
+						// if (isNaN(c) || c <= 0) {
+						// 	isCorrectData = false;
+						// 	$(this).next().text('Nieprawidłowa wartość');
+						// }
+					}
+
+					if (i === 3) {
+						item.trainType = $(element).val();
+						itemArray.push(item.trainType);
+
+						// let d = parseInt(item.maxSpeed);
+
+						// if (isNaN(d) || d <= 0) {
+						// 	isCorrectData = false;
+						// 	$(this).next().text('Nieprawidłowa wartość');
+						// }
+					}
+
+					// item.routeId = $('#routeId').val();
+					// itemArray.push(item.routeId);
+
+					i++;
+				});
+
+				elements.push(item);
+				form = elements;
+			});
+
+			let trip = form;
+			console.log(trip);
+
+			const data = $('#form');
+
+				$.ajax({
+					url: data.data('url'),
+					method: 'POST',
+					contentType: 'application/json',
+					data: JSON.stringify(form),
+
+					success: function (response) {
+						window.location.href = response.redirectToUrl;
+					},
+					error: function (error) {
+
+					}
+				});
+		}
+
+		function removeRecord(tr) {
+
+			document.getElementById("parentTable").removeChild(tr.parentNode.parentNode);
+		}
+
+	</script>
+}

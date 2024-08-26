@@ -18,4 +18,15 @@ public class TrainTypeRepository : ITrainTypeRepository
 		var results = await _dbContext.TrainTypes.ToListAsync();
 		return results;
 	}
+
+	public async Task Create(TrainType model)
+	{
+		if (model is null)
+		{
+			throw new ArgumentNullException(nameof(model));
+		}
+
+		_dbContext.TrainTypes.Add(model);
+		await _dbContext.SaveChangesAsync();
+	}
 }

@@ -14,8 +14,6 @@ public class CreateTrainStationCommandHandler : IRequestHandler<CreateTrainStati
 	}
     public async Task<Unit> Handle(CreateTrainStationCommand request, CancellationToken cancellationToken)
 	{
-		//TrainStation station = new TrainStation();
-		//station.Station = request.Station;
 		await _trainStationRepository.Create(request);
 		return Unit.Value;
 	}

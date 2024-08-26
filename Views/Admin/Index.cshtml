@@ -1,11 +1,45 @@
 ﻿<h2>Panel administracyjny</h2>
 <br />
 
+<center><h3>Tworzenie</h3></center>
+
+<br />
+
 <div class="container">
     <div class="row">
-        <a class="btn btn-secondary mb-2" asp-controller="Admin" asp-action="AddStation">Dodaj stację</a>
-</div>
+        <a class="btn btn-success mb-2" asp-controller="Admin" asp-action="AddStation">Dodaj stację</a>
+    </div>
     <div class="row">
-        <a class="btn btn-secondary mb-2" asp-controller="Admin" asp-action="AddTrainType">Dodaj typ pociągu</a>
+        <a class="btn btn-success mb-2" asp-controller="Admin" asp-action="AddTrainType">Dodaj typ pociągu</a>
+    </div>
+    <div class="row">
+        <a class="btn btn-success mb-2" asp-controller="Admin" asp-action="AddRoute">Dodaj trasę</a>
+    </div>
+    <div class="row">
+        <a class="btn btn-success mb-2" asp-controller="Admin" asp-action="AddRouteDetails">Skonfiguruj trasę</a>
+    </div>
+    <div class="row">
+        <a class="btn btn-success mb-2" asp-controller="Admin" asp-action="AddTrips">Dodaj przejazd</a>
+    </div>
+</div>
+
+<br />
+
+<center><h3>Widoki</h3></center>
+
+<br />
+
+<div class="container">
+    <div class="row">
+        <a class="btn btn-info mb-2" asp-controller="Admin" asp-action="Stations">Pokaż stacje</a>
+    </div>
+    <div class="row">
+        <a class="btn btn-info mb-2" asp-controller="Admin" asp-action="TrainTypes">Pokaż rodzaje pociągów</a>
+    </div>
+    <div class="row">
+        <a class="btn btn-info mb-2" asp-controller="Admin" asp-action="Routes">Pokaż trasy</a>
+    </div>
+    <div class="row">
+        <a class="btn btn-info mb-2" asp-controller="Admin" asp-action="Trips">Pokaż przejazdy</a>
     </div>
 </div>

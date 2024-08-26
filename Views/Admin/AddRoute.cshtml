@@ -1,0 +1,41 @@
+﻿@using TrainTicketsWebApp.CQRS.Commands.Route
+@using TrainTicketsWebApp.CQRS.Commands.TrainType
+@using TrainTicketsWebApp.Models.Dto
+@model CreateRouteCommand
+
+<h2>Dodawanie trasy:</h2>
+<br />
+
+<form method="post" class="row" asp-controller="Admin" asp-action="CreateRoute">
+	<table class="table table-bordered table-striped" style="width: 100%">
+		<thead>
+			<tr>
+				<th>
+					Nazwa trasy
+				</th>
+				<th>
+					Opis trasy
+				</th>
+			</tr>
+		</thead>
+
+		<tbody>
+
+			<tr>
+				<td>
+					<input class="form-control border-0 shadow mb-2" asp-for="Name" />
+					<span class="text-danger" asp-validation-for="Name"></span>
+				</td>
+				<td>
+					<input class="form-control border-0 shadow mb-2" asp-for="Description" />
+					<span class="text-danger" asp-validation-for="Description"></span>
+				</td>
+			</tr>
+
+		</tbody>
+
+	</table>
+	<button type="submit" class="btn btn-success form-control mb-2">Dodaj</button>
+</form>
+
+<a class="btn btn-secondary" asp-controller="Admin" asp-action="Routes">Wróć do listy</a>

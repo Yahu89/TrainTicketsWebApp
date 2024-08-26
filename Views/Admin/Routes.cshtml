@@ -1,0 +1,39 @@
+﻿@using TrainTicketsWebApp.Database.Entities
+@using TrainTicketsWebApp.Models.Dto
+@model List<RouteDto>
+
+<h2>Trasy:</h2>
+<br />
+
+<table class="table table-bordered table-striped" style="width: 100%">
+	<thead>
+		<tr>
+			<th>
+				Nazwa trasy
+			</th>
+			<th>
+				Opis trasy
+			</th>
+			<th>
+				
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@item.Name
+				</td>
+				<td>
+					@item.Description
+				</td>
+				<td>
+					<a class="btn btn-info" asp-controller="Admin" asp-action="RouteDetail" asp-route-routeName="@item.Name">Pokaż szczegóły</a>
+				</td>
+			</tr>
+		}
+
+	</tbody>
+</table>
