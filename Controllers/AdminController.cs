@@ -186,8 +186,8 @@ namespace TrainTicketsWebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Trips(int currentPageNumber = 1)
         {
-            var result = await _mediator.Send(new GetAllTripsQuery(currentPageNumber: currentPageNumber));
-            return View(result);
+            var list = await _mediator.Send(new GetAllTripsQuery(3, currentPageNumber: currentPageNumber));
+            return View(list);
         }
 
     }

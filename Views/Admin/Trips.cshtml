@@ -1,62 +1,111 @@
-﻿@using TrainTicketsWebApp.Models.Dto
-@model List<TripDto>
+﻿@using TrainTicketsWebApp.CQRS.Queries.Trip
+@using TrainTicketsWebApp.Models.Dto
+@* @model List<TripDto> *@
+@model TripsPaginationResultView
 
 <h2>Lista przejazdów: </h2>
 <br />
 
 <table class="table table-bordered table-striped" style="width: 100%">
-	<thead>
-		<tr>
-			<th>
-				Id
-			</th>
-			<th>
-				Nazwa trasy
-			</th>
-			<th>
-				Data odjazdu
-			</th>
-			<th>
-				Godzina odjazdu
-			</th>
-			<th>
-				Typ pociągu
-			</th>
-			<th>
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Nazwa trasy
+            </th>
+            <th>
+                Data odjazdu
+            </th>
+            <th>
+                Godzina odjazdu
+            </th>
+            <th>
+                Typ pociągu
+            </th>
+            <th>
 
-			</th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var item in Model)
-		{
-			<tr>
-				<td>
-					@item.Id
-				</td>
-				<td>
-					@item.RouteName
-				</td>
-				<td>
-					@item.DepartureDate.ToString("yyyy-MM-dd")
-				</td>
-				<td>
-					@item.DepartureTime.ToString("HH:mm")
-				</td>
-				<td>
-					@item.TrainType
-				</td>
-				<td>
-					<a class="btn btn-danger" asp-controller="Admin" asp-action="Delete">Usuń</a>
-				</td>
-			</tr>
-		}
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Trips)
+        {
+            <tr>
+                <td>
+                    @item.Id
+                </td>
+                <td>
+                    @item.RouteName
+                </td>
+                <td>
+                    @item.DepartureDate.ToString("yyyy-MM-dd")
+                </td>
+                <td>
+                    @item.DepartureTime.ToString("HH:mm")
+                </td>
+                <td>
+                    @item.TrainType
+                </td>
+                <td>
+                    <a class="btn btn-danger" asp-controller="Admin" asp-action="Delete">Usuń</a>
+                </td>
+            </tr>
+        }
 
-	</tbody>
+    </tbody>
 </table>
 
+<nav aria-label="...">
+    <ul class="pagination">
+        @if (Model.CurrentPageNumber > 1)
+        {
+            <li class="page-item">
+                <a class="page-link" href="/Admin/Trips?currentPageNumber=@(Model.CurrentPageNumber-1)">Poprzednia</a>
+            </li>
+        }
+        else
+        {
+            <li class="page-item disabled">
+                <a class="page-link" href="#">Poprzednia</a>
+            </li>
+        }
+
+        @for (int i = 1; i <= Model.TotalPages; i++)
+        {
+            if (Model.CurrentPageNumber == i)
+            {
+                <li class="page-item active">
+                    <a class="page-link" href="/Admin/Trips?currentPageNumber=@i"> <span class="sr-only">@i</span></a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <a class="page-link" href="/Admin/Trips?currentPageNumber=@i"> <span class="sr-only">@i</span></a>
+                </li>
+            }
+        }
+
+        @if (Model.CurrentPageNumber < Model.TotalPages)
+        {
+            <li class="page-item">
+                <a class="page-link" href="/Admin/Trips?currentPageNumber=@(Model.CurrentPageNumber+1)">Następna</a>
+            </li>
+        }
+        else
+        {
+            <li class="page-item disabled">
+                <a class="page-link" href="#">Następna</a>
+            </li>
+        }
+
+    </ul>
+</nav>
+
 <div class="container">
-	<div class="row">
-		<a class="btn btn-secondary" asp-controller="Admin" asp-action="Index">Wróć do menu</a>
-	</div>
+    <div class="row">
+        <a class="btn btn-secondary" asp-controller="Admin" asp-action="Index">Wróć do menu</a>
+    </div>
 </div>

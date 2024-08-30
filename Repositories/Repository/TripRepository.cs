@@ -42,6 +42,7 @@ public class TripRepository : ITripRepository
 
 	public async Task<List<Trip>> GetAllTripsPaginated(int itemsPerPage = 20, int currentPageNumber = 1)
 	{
+		int totalRecords = _dbContex.Trips.Count();
 		var result = await _dbContex.Trips.Include(x => x.Route)
 									.Skip(itemsPerPage * (currentPageNumber - 1))
 									.Take(itemsPerPage)
@@ -49,6 +50,11 @@ public class TripRepository : ITripRepository
 									.ToListAsync();
 
 		return result;
+	}
+
+	public async Task<int> AllTripsQty()
+	{
+		return await _dbContex.Trips.CountAsync();
 	}
 
 	private async Task<List<SelectListItem>> GetRoutes()
