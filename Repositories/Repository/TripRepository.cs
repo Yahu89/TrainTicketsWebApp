@@ -15,7 +15,7 @@ public class TripRepository : ITripRepository
 		_dbContex = dbContex;
 	}
 
-	public async Task<List<int>> CreateRange(List<Trip> trips)
+	public async Task<List<Trip>> CreateRange(List<Trip> trips)
 	{
 		if (trips is null)
 		{
@@ -26,7 +26,18 @@ public class TripRepository : ITripRepository
 		await _dbContex.SaveChangesAsync();
 
 		var idList = trips.Select(x => x.Id).ToList();
-		return idList;
+
+		List<Trip> tripList = new List<Trip>();
+
+		foreach (var id in idList)
+		{
+			var trip = await _dbContex.Trips.Include(x => x.TrainType)
+											.Include(x => x.Route.RouteDetails)
+											.FirstOrDefaultAsync(x => x.Id == id);
+			tripList.Add(trip);
+		}
+
+		return tripList;
 	}
 
 	public async Task<TripCreationView> GetTripCreationView()

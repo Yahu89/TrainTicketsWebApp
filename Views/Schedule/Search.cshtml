@@ -1,0 +1,100 @@
+﻿@using TrainTicketsWebApp.CQRS.Commands.Route
+@using TrainTicketsWebApp.CQRS.Commands.TrainType
+@using TrainTicketsWebApp.CQRS.Queries.Tour
+@using TrainTicketsWebApp.Models.Dto
+@model RouteDetailsCreationView
+
+@{
+	var getDay = DateTime.Now; //.ToString("yyyy-MM-dd");
+	var currentDay = DateTime.Now.ToString("yyyy-MM-dd");
+	var currentTime = new TimeSpan(0, 0, 0); //getDay.ToString("HH:mm"); //DateTime.Now.ToString("HH:mm");
+}
+
+<h2>Wyszukiwarka połączeń:</h2>
+<br />
+
+<form method="post" class="row" asp-controller="Schedule" asp-action="SearchTour">
+	<table class="table table-bordered table-striped" style="width: 100%">
+		<thead>
+			<tr>
+				<th>
+					Skąd:
+				</th>
+				<th>
+					Dokąd:
+				</th>
+				<th>
+					Data odjazdu:
+				</th>
+				<th>
+					Godzina odjazdu:
+				</th>
+				<th>
+					Dopuść przesiadki:
+				</th>
+			</tr>
+		</thead>
+
+		<tbody>
+
+			<tr>
+				<td>
+					@Html.DropDownList("From", Model.From, new { @class = "form-select border-0 shadow mb-2" })
+				</td>
+				<td>
+					@Html.DropDownList("To", Model.To, new { @class = "form-select border-0 shadow mb-2" })
+				</td>
+				<td>
+					<input class="form-control border-0 shadow mb-2" type="date" value="@currentDay" name="DepartureDay"  />
+					<span class="text-danger" ></span>
+				</td>
+				<td>
+					<input class="form-control border-0 shadow mb-2" type="time" value="@currentTime" name="DepartureTime"/>
+					<span class="text-danger"></span>
+				</td>
+				<td>
+					<input class="w-100 h-100" type="checkbox" />
+					<span class="text-danger"></span>
+				</td>
+			</tr>
+
+		</tbody>
+	</table>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-3">
+				<button type="submit" class="btn btn-info form-control mb-2">Szukaj połączenia</button>
+			</div>
+			<div class="col-3">
+				<a class="btn btn-secondary" asp-controller="Admin" asp-action="Index">Wróć do menu</a>
+			</div>
+		</div>
+	</div>
+</form>
+<br />
+<table class="table table-bordered table-striped" style="width: 100%">
+	<thead>
+		<tr>
+			<th>
+				Skąd
+			</th>
+			<th>
+				Dokąd
+			</th>
+			<th>
+				Data odjazdu
+			</th>
+			<th>
+				Data przyjazdu
+			</th>
+			<th>
+				Dostępność miejsc
+			</th>
+			<th>
+
+			</th>
+		</tr>
+	</thead>
+	</table>
+

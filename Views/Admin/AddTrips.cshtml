@@ -148,29 +148,12 @@
 					if (i === 2) {
 						item.departureTime = $(element).val();
 						itemArray.push(item.departureTime);
-
-						//let c = parseInt(item.distance);
-
-						// if (isNaN(c) || c <= 0) {
-						// 	isCorrectData = false;
-						// 	$(this).next().text('Nieprawidłowa wartość');
-						// }
 					}
 
 					if (i === 3) {
 						item.trainType = $(element).val();
 						itemArray.push(item.trainType);
-
-						// let d = parseInt(item.maxSpeed);
-
-						// if (isNaN(d) || d <= 0) {
-						// 	isCorrectData = false;
-						// 	$(this).next().text('Nieprawidłowa wartość');
-						// }
 					}
-
-					// item.routeId = $('#routeId').val();
-					// itemArray.push(item.routeId);
 
 					i++;
 				});

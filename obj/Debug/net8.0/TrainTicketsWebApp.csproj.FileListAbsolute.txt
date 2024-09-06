@@ -145,3 +145,17 @@ C:\Users\Yahu\source\repos\TrainTicketsWebApp\TrainTicketsWebApp\obj\Debug\net8.
 C:\Users\Yahu\source\repos\TrainTicketsWebApp\TrainTicketsWebApp\bin\Debug\net8.0\AutoMapper.dll
 C:\Users\Yahu\source\repos\TrainTicketsWebApp\TrainTicketsWebApp\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 C:\Users\Yahu\source\repos\TrainTicketsWebApp\TrainTicketsWebApp\obj\Debug\net8.0\TrainTicketsWebApp.sourcelink.json
+C:\Users\Yahu\source\repos\TrainTicketsWebApp\TrainTicketsWebApp\bin\Debug\net8.0\AWSSDK.Core.dll
+C:\Users\Yahu\source\repos\TrainTicketsWebApp\TrainTicketsWebApp\bin\Debug\net8.0\AWSSDK.SecurityToken.dll
+C:\Users\Yahu\source\repos\TrainTicketsWebApp\TrainTicketsWebApp\bin\Debug\net8.0\DnsClient.dll
+C:\Users\Yahu\source\repos\TrainTicketsWebApp\TrainTicketsWebApp\bin\Debug\net8.0\MongoDB.Bson.dll
+C:\Users\Yahu\source\repos\TrainTicketsWebApp\TrainTicketsWebApp\bin\Debug\net8.0\MongoDB.Driver.dll
+C:\Users\Yahu\source\repos\TrainTicketsWebApp\TrainTicketsWebApp\bin\Debug\net8.0\MongoDB.Driver.Core.dll
+C:\Users\Yahu\source\repos\TrainTicketsWebApp\TrainTicketsWebApp\bin\Debug\net8.0\MongoDB.Libmongocrypt.dll
+C:\Users\Yahu\source\repos\TrainTicketsWebApp\TrainTicketsWebApp\bin\Debug\net8.0\SharpCompress.dll
+C:\Users\Yahu\source\repos\TrainTicketsWebApp\TrainTicketsWebApp\bin\Debug\net8.0\Snappier.dll
+C:\Users\Yahu\source\repos\TrainTicketsWebApp\TrainTicketsWebApp\bin\Debug\net8.0\ZstdSharp.dll
+C:\Users\Yahu\source\repos\TrainTicketsWebApp\TrainTicketsWebApp\bin\Debug\net8.0\runtimes\linux\native\libmongocrypt.so
+C:\Users\Yahu\source\repos\TrainTicketsWebApp\TrainTicketsWebApp\bin\Debug\net8.0\runtimes\osx\native\libmongocrypt.dylib
+C:\Users\Yahu\source\repos\TrainTicketsWebApp\TrainTicketsWebApp\bin\Debug\net8.0\runtimes\win\native\mongocrypt.dll
+C:\Users\Yahu\source\repos\TrainTicketsWebApp\TrainTicketsWebApp\bin\Debug\net8.0\Newtonsoft.Json.dll

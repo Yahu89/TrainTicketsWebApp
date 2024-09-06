@@ -1,0 +1,57 @@
+﻿@using TrainTicketsWebApp.Models.Dto
+@model List<SearchTourResult>
+
+<table class="table table-bordered table-striped" style="width: 100%">
+	<thead>
+		<tr>
+			<th>
+				Skąd
+			</th>
+			<th>
+				Dokąd
+			</th>
+			<th>
+				Data odjazdu
+			</th>
+			<th>
+				Data przyjazdu
+			</th>
+			<th>
+				Typ pociągu
+			</th>
+			<th>
+				Dostępność miejsc
+			</th>
+			<th>
+
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@item.From
+				</td>
+				<td>
+					@item.To
+				</td>
+				<td>
+					@item.DepartureTime
+				</td>
+				<td>
+					@item.ArrivalTime
+				</td>
+				<td>
+					@item.TrainType
+				</td>
+				<td>
+					@item.PlacesAvailable
+				</td>
+				<td>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>

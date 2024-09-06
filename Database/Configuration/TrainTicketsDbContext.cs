@@ -63,6 +63,7 @@ public class TrainTicketsDbContext : DbContext
             e.HasOne(x => x.StationFrom).WithMany(x => x.ScheduleStationFrom).HasForeignKey(x => x.From);
             e.HasOne(x => x.StationTo).WithMany(x => x.ScheduleStationTo).HasForeignKey(x => x.To);
             e.Property(x => x.DepartureTime).IsRequired();
+            e.Property(x => x.ArrivalTime).IsRequired();
         });
 
         modelBuilder.Entity<Trip>(e =>

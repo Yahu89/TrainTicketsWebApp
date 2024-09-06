@@ -3,6 +3,7 @@ using TrainTicketsWebApp.CQRS.Commands.Route;
 using TrainTicketsWebApp.CQRS.Commands.RouteDetails;
 using TrainTicketsWebApp.CQRS.Commands.TrainType;
 using TrainTicketsWebApp.CQRS.Commands.Trip;
+using TrainTicketsWebApp.Database.Collections;
 using TrainTicketsWebApp.Database.Entities;
 using TrainTicketsWebApp.Models.Dto;
 
@@ -35,5 +36,7 @@ public class MappingProfile : Profile
             .ForMember(x => x.DepartureDate, y => y.MapFrom(src => src.DepartureTime.Date))
             .ForMember(x => x.DepartureTime, y => y.MapFrom(src => src.DepartureTime.ToString("HH:mm")))
             .ForMember(x => x.TrainType, y => y.MapFrom(src => src.TrainTypeName));
+
+        CreateMap<TripOccupation,  TripOccupationDto>().ReverseMap();
     }
 }

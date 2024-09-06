@@ -3,6 +3,8 @@ using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using MongoDB.Bson;
+using MongoDB.Driver;
 using TrainTicketsWebApp.CQRS.Queries.Station;
 using TrainTicketsWebApp.Database.Configuration;
 using TrainTicketsWebApp.Models;
@@ -13,6 +15,10 @@ using TrainTicketsWebApp.Repositories.Repository;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<TrainTicketsDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString(nameof(TrainTicketsDbContext))));
+var mongoSettings = builder.Configuration.GetSection("MongoDbSettings").Get<MongoDbSettings>();
+
+builder.Services.AddSingleton<IMongoClient>(sp => new MongoClient(mongoSettings.ConnectionString));
+builder.Services.AddSingleton(sp => sp.GetRequiredService<IMongoClient>().GetDatabase(mongoSettings.DatabaseName));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -22,6 +28,7 @@ builder.Services.AddScoped<IRouteRepository, RouteRepository>();
 builder.Services.AddScoped<IRouteDetailsRepository, RouteDetailsRepository>();
 builder.Services.AddScoped<ITripRepository, TripRepository>();
 builder.Services.AddScoped<IScheduleRepository, ScheduleRepository>();
+builder.Services.AddSingleton<ITripOccupationRepository, TripOccupationRepository>();
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 

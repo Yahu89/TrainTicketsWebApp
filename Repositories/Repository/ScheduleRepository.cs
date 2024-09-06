@@ -9,9 +9,12 @@ namespace TrainTicketsWebApp.Repositories.Repository;
 public class ScheduleRepository : IScheduleRepository
 {
 	private readonly TrainTicketsDbContext _dbContex;
-	public ScheduleRepository(TrainTicketsDbContext dbContex)
+	private readonly ITripOccupationRepository _tripOccupationRepository;
+
+	public ScheduleRepository(TrainTicketsDbContext dbContex, ITripOccupationRepository tripOccupationRepository)
     {
 		_dbContex = dbContex;
+		_tripOccupationRepository = tripOccupationRepository;
 	}
     public async Task CreateRange(List<Schedule> schedules)
 	{
@@ -40,12 +43,16 @@ public class ScheduleRepository : IScheduleRepository
 
 			foreach (var routeDetail in trip.Route.RouteDetails)
 			{
+				var departureTime = trip.DepartureTime;
+				var arrivalTime = begin.AddMinutes(CalculateSingleSectionTime(routeDetail.Distance, routeDetail.MaxSpeed));
+
 				Schedule newSchedule = new Schedule()
 				{
 					TripId = trip.Id,
 					From = routeDetail.From,
 					To = routeDetail.To,
-					DepartureTime = begin
+					DepartureTime = begin,
+					ArrivalTime = arrivalTime
 				};
 
 				begin = begin.AddMinutes(CalculateSingleSectionTime(routeDetail.Distance, routeDetail.MaxSpeed));
@@ -54,6 +61,70 @@ public class ScheduleRepository : IScheduleRepository
 		}
 
 		return schedules;
+	}
+
+	public async Task<List<SearchTourResult>> GetFoundTours(SearchTourDto tour)
+	{
+		List<Schedule> toursByDateAndFrom = new List<Schedule>();
+
+		var day = DateTime.Parse($"{tour.DepartureDay.ToString("yyyy-MM-dd")} {tour.DepartureTime}");
+		var endOfDay = new DateTime(day.Year, day.Month, day.Day, 23, 59, 0);
+
+		toursByDateAndFrom = await _dbContex.Schedules.Include(x => x.Trip)
+			.Where(x => x.DepartureTime >= day && x.DepartureTime <= endOfDay)			
+			.Where(x => x.From.Equals(tour.From)).ToListAsync();
+
+		if (!toursByDateAndFrom.Any() )
+		{
+			return new List<SearchTourResult>();
+		}
+
+		List<SearchTourResult> finalResults = new List<SearchTourResult>();
+
+		for (int i = 0; i <  toursByDateAndFrom.Count; i++)
+		{
+			var toursByTo = await _dbContex.Schedules.Include(x => x.Trip)
+													 .ThenInclude(x => x.Route)
+													 .ThenInclude(x => x.RouteDetails)
+													 .Where(x => x.TripId == toursByDateAndFrom[i].TripId)
+													 .FirstOrDefaultAsync(x => x.To.Equals(tour.To));
+
+			if (toursByTo == null)
+			{
+				continue;
+			}
+
+			SearchTourResult element = new SearchTourResult()
+			{
+				TripId = toursByDateAndFrom[i].TripId,
+				From = tour.From,
+				To = toursByTo.To,
+				DepartureTime = toursByDateAndFrom[i].DepartureTime,
+				ArrivalTime = toursByTo.ArrivalTime,
+				TrainType = toursByDateAndFrom[i].Trip.TrainTypeName,
+				SegmentNumberFrom = toursByTo.Trip.Route.RouteDetails.Where(x => x.From.Equals(toursByDateAndFrom[i].From))
+																	 .Select(x => x.SegmentNumber)
+																	 .FirstOrDefault(),
+				SegmentNumberTo = toursByTo.Trip.Route.RouteDetails.Where(x => x.To.Equals(toursByTo.To))
+																	 .Select(x => x.SegmentNumber)
+																	 .FirstOrDefault(),
+				//PlacesAvailable = _tripOccupationRepository.CalculateRemainPlacesList()
+			};
+
+			finalResults.Add(element);
+		}
+
+		var placesAvailable = await _tripOccupationRepository.CalculateRemainPlacesList(finalResults);
+
+		if (finalResults.Count == placesAvailable.Count)
+		{
+			for (int i = 0; i < placesAvailable.Count; i++)
+			{
+				finalResults[i].PlacesAvailable = placesAvailable[i];
+			}
+		}
+
+		return finalResults;
 	}
 
 	private int CalculateSingleSectionTime(int distance, int speed)

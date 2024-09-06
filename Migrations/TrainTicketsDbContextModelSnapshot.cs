@@ -93,6 +93,9 @@ namespace TrainTicketsWebApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("ArrivalTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("DepartureTime")
                         .HasColumnType("datetime2");
 

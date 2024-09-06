@@ -9,5 +9,6 @@ public class Schedule
     public TrainStation StationTo { get; set; }
     public string To { get; set; }
     public DateTime DepartureTime { get; set; }
+    public DateTime ArrivalTime { get; set; }
     public Trip Trip { get; set; }
 }
