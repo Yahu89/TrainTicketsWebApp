@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using TrainTicketsWebApp.Database.Configuration;
 using TrainTicketsWebApp.Database.Entities;
 using TrainTicketsWebApp.Models.Dto;
@@ -10,11 +11,15 @@ public class ScheduleRepository : IScheduleRepository
 {
 	private readonly TrainTicketsDbContext _dbContex;
 	private readonly ITripOccupationRepository _tripOccupationRepository;
+	private readonly IMapper _mapper;
 
-	public ScheduleRepository(TrainTicketsDbContext dbContex, ITripOccupationRepository tripOccupationRepository)
+	public ScheduleRepository(TrainTicketsDbContext dbContex, 
+								ITripOccupationRepository tripOccupationRepository,
+								IMapper mapper)
     {
 		_dbContex = dbContex;
 		_tripOccupationRepository = tripOccupationRepository;
+		_mapper = mapper;
 	}
     public async Task CreateRange(List<Schedule> schedules)
 	{
@@ -27,9 +32,9 @@ public class ScheduleRepository : IScheduleRepository
 		await _dbContex.SaveChangesAsync();
 	}
 
-	public async Task<List<Schedule>> GenerateSchedules(List<Trip> trips)
+	public async Task<List<ScheduleDto>> GenerateSchedules(List<Trip> trips)
 	{
-		List<Schedule> schedules = new List<Schedule>();
+		List<ScheduleDto> schedules = new List<ScheduleDto>();
 		var idList = trips.Select(x => x.Id).ToList();
 		var tripsWithReferences = await _dbContex.Trips
 								.Include(x => x.Route)
@@ -46,7 +51,7 @@ public class ScheduleRepository : IScheduleRepository
 				var departureTime = trip.DepartureTime;
 				var arrivalTime = begin.AddMinutes(CalculateSingleSectionTime(routeDetail.Distance, routeDetail.MaxSpeed));
 
-				Schedule newSchedule = new Schedule()
+				ScheduleDto newSchedule = new ScheduleDto()
 				{
 					TripId = trip.Id,
 					From = routeDetail.From,
@@ -65,14 +70,14 @@ public class ScheduleRepository : IScheduleRepository
 
 	public async Task<List<SearchTourResult>> GetFoundTours(SearchTourDto tour)
 	{
-		List<Schedule> toursByDateAndFrom = new List<Schedule>();
+		List<ScheduleDto> toursByDateAndFrom = new List<ScheduleDto>();
 
 		var day = DateTime.Parse($"{tour.DepartureDay.ToString("yyyy-MM-dd")} {tour.DepartureTime}");
 		var endOfDay = new DateTime(day.Year, day.Month, day.Day, 23, 59, 0);
 
-		toursByDateAndFrom = await _dbContex.Schedules.Include(x => x.Trip)
+		toursByDateAndFrom = _mapper.Map<List<ScheduleDto>>(await _dbContex.Schedules.Include(x => x.Trip)
 			.Where(x => x.DepartureTime >= day && x.DepartureTime <= endOfDay)			
-			.Where(x => x.From.Equals(tour.From)).ToListAsync();
+			.Where(x => x.From.Equals(tour.From)).ToListAsync());
 
 		if (!toursByDateAndFrom.Any() )
 		{
@@ -108,7 +113,6 @@ public class ScheduleRepository : IScheduleRepository
 				SegmentNumberTo = toursByTo.Trip.Route.RouteDetails.Where(x => x.To.Equals(toursByTo.To))
 																	 .Select(x => x.SegmentNumber)
 																	 .FirstOrDefault(),
-				//PlacesAvailable = _tripOccupationRepository.CalculateRemainPlacesList()
 			};
 
 			finalResults.Add(element);

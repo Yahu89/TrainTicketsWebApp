@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using TrainTicketsWebApp.Database.Collections;
+using TrainTicketsWebApp.Database.Entities;
 using TrainTicketsWebApp.Repositories.Interface;
 using TrainTicketsWebApp.Repositories.Repository;
 
@@ -34,7 +35,7 @@ public class CreateTripsCommandHandler : IRequestHandler<CreateTripsCommand>
 
 		var tripIdList = await _tripRepository.CreateRange(list);
 
-		var schedules = await _scheduleRepository.GenerateSchedules(list);
+		var schedules = _mapper.Map<List<Schedule>>(await _scheduleRepository.GenerateSchedules(list));
 		await _scheduleRepository.CreateRange(schedules);
 
 		foreach (var trip in tripIdList)

@@ -38,5 +38,7 @@ public class MappingProfile : Profile
             .ForMember(x => x.TrainType, y => y.MapFrom(src => src.TrainTypeName));
 
         CreateMap<TripOccupation,  TripOccupationDto>().ReverseMap();
+
+        CreateMap<Schedule, ScheduleDto>().ReverseMap();
     }
 }

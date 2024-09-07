@@ -50,6 +50,15 @@
 					@item.PlacesAvailable
 				</td>
 				<td>
+					@if (item.PlacesAvailable > 0)
+					{
+						<a class="btn btn-info" asp-controller="Tour" asp-action="Reservation">Kup bilet</a>
+					}
+					else
+					{
+						<buton class="btn btn-secondary" disabled>Kup bilet</buton>
+					}
+
 				</td>
 			</tr>
 		}

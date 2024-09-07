@@ -5,9 +5,9 @@
 @model RouteDetailsCreationView
 
 @{
-	var getDay = DateTime.Now; //.ToString("yyyy-MM-dd");
+	var getDay = DateTime.Now; 
 	var currentDay = DateTime.Now.ToString("yyyy-MM-dd");
-	var currentTime = new TimeSpan(0, 0, 0); //getDay.ToString("HH:mm"); //DateTime.Now.ToString("HH:mm");
+	var currentTime = new TimeSpan(0, 0, 0); 
 }
 
 <h2>Wyszukiwarka połączeń:</h2>
@@ -72,7 +72,7 @@
 		</div>
 	</div>
 </form>
-<br />
+@* <br />
 <table class="table table-bordered table-striped" style="width: 100%">
 	<thead>
 		<tr>
@@ -96,5 +96,5 @@
 			</th>
 		</tr>
 	</thead>
-	</table>
+	</table> *@
 

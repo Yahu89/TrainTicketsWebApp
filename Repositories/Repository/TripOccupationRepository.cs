@@ -10,16 +10,9 @@ namespace TrainTicketsWebApp.Repositories.Repository;
 public class TripOccupationRepository : ITripOccupationRepository
 {
 	private readonly IMongoCollection<TripOccupation> _tripOccupation;
-	//private readonly IMongoCollection<BsonDocument> _testCollection;
 	public TripOccupationRepository(IMongoDatabase mongoDatabase)
     {
 		_tripOccupation = mongoDatabase.GetCollection<TripOccupation>("TripOccupation");
-		//_testCollection = mongoDatabase.GetCollection<BsonDocument>("TripOccupation");
-	}
-
-	public async Task CreateDocument(BsonDocument doc)
-	{
-		//await _testCollection.InsertOneAsync(doc);
 	}
 
 	public async Task CreateTripOccupation(TripOccupation dto)
@@ -37,7 +30,9 @@ public class TripOccupationRepository : ITripOccupationRepository
 			var filter = Builders<TripOccupation>.Filter.Eq("_id", tripId.ToString());
 			var tripOccupation = await _tripOccupation.Find(filter).FirstOrDefaultAsync();
 			
-			placesAvailable.Add(CalculatePlacesAvailable(tripOccupation.OccupationMatrix, tour.SegmentNumberFrom, tour.SegmentNumberTo));
+			placesAvailable.Add(CalculatePlacesAvailable(tripOccupation.OccupationMatrix, 
+														tour.SegmentNumberFrom, 
+														tour.SegmentNumberTo));
 
 		}
 
@@ -67,10 +62,10 @@ public class TripOccupationRepository : ITripOccupationRepository
 		return places;
 	}
 
-	public async Task<TripOccupation> GetTrip()
-	{
-		var filter = Builders<TripOccupation>.Filter.Eq("_id", "79");
-		var tripOccupation = await _tripOccupation.Find(filter).FirstOrDefaultAsync();
-		return tripOccupation;
-	}
+	//public async Task<TripOccupation> GetTrip()
+	//{
+	//	var filter = Builders<TripOccupation>.Filter.Eq("_id", "79");
+	//	var tripOccupation = await _tripOccupation.Find(filter).FirstOrDefaultAsync();
+	//	return tripOccupation;
+	//}
 }
