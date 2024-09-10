@@ -11,4 +11,6 @@ public class Schedule
     public DateTime DepartureTime { get; set; }
     public DateTime ArrivalTime { get; set; }
     public Trip Trip { get; set; }
+    //public List<Reservation> ReservationTo { get; set; } = new List<Reservation>();
+    //public List<Reservation> ReservationFrom { get; set; } = new List<Reservation>();
 }

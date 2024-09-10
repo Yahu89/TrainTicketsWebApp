@@ -40,5 +40,7 @@ public class MappingProfile : Profile
         CreateMap<TripOccupation,  TripOccupationDto>().ReverseMap();
 
         CreateMap<Schedule, ScheduleDto>().ReverseMap();
+
+        CreateMap<ReservationDto, Reservation>().ReverseMap();
     }
 }

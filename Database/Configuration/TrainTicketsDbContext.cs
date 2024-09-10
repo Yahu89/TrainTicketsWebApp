@@ -16,6 +16,7 @@ public class TrainTicketsDbContext : DbContext
     public DbSet<TrainStation> TrainStations { get; set; }
     public DbSet<TrainType> TrainTypes { get; set; }
     public DbSet<Trip> Trips { get; set; }
+    public DbSet<Reservation> Reservations { get; set; }
     protected void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
         optionsBuilder.UseSqlServer("Data source=localhost\\SQLEXPRESS; Trusted_Connection=true; Initial Catalog=TrainTicketsBase; TrustServerCertificate=true; Integrated Security=true");
 
@@ -72,6 +73,24 @@ public class TrainTicketsDbContext : DbContext
             e.HasOne(x => x.Route).WithMany(x => x.Trips).HasForeignKey(x => x.RouteId);
             e.Property(x => x.DepartureTime).IsRequired();
             e.HasOne(x => x.TrainType).WithMany(x => x.Trips).HasForeignKey(x => x.TrainTypeName);
+        });
+
+        modelBuilder.Entity<Reservation>(e =>
+        {
+            e.HasKey(x => x.Id);
+            e.Property(x => x.TripId).IsRequired();
+            e.Property(x => x.FirstName).IsRequired().HasMaxLength(200);
+            e.Property(x => x.LastName).IsRequired().HasMaxLength(200);
+            e.Property(x => x.Email).IsRequired();
+            e.Property(x => x.From).IsRequired();
+            e.Property(x => x.To).IsRequired();
+            e.Property(x => x.DepartureTime).IsRequired();
+            e.Property(x => x.ArrivalTime).IsRequired();
+            e.Property(x => x.TrainType).IsRequired();
+            e.Property(x => x.SeatNumber).IsRequired();
+            e.HasOne(x => x.Trip).WithMany(x => x.Reservations).HasForeignKey(x => x.TripId);
+            e.HasOne(x => x.TrainStationFrom).WithMany(x => x.ReservationFrom).HasForeignKey(x => x.From);
+            e.HasOne(x => x.TrainStationTo).WithMany(x => x.ReservationTo).HasForeignKey (x => x.To);
         });
     }
 }

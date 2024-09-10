@@ -27,6 +27,7 @@ builder.Services.AddScoped<IRouteDetailsRepository, RouteDetailsRepository>();
 builder.Services.AddScoped<ITripRepository, TripRepository>();
 builder.Services.AddScoped<IScheduleRepository, ScheduleRepository>();
 builder.Services.AddSingleton<ITripOccupationRepository, TripOccupationRepository>();
+builder.Services.AddScoped<ITourRepository, TourRepository>();
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
@@ -37,6 +38,9 @@ builder.Services.AddValidatorsFromAssemblyContaining<CreateTrainTypeCommandValid
 							.AddFluentValidationAutoValidation()
 							.AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateRouteCommandValidator>()
+							.AddFluentValidationAutoValidation()
+							.AddFluentValidationClientsideAdapters();
+builder.Services.AddValidatorsFromAssemblyContaining<ReservationValidator>()
 							.AddFluentValidationAutoValidation()
 							.AddFluentValidationClientsideAdapters();
 

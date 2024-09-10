@@ -1,1 +1,52 @@
-﻿
+﻿@using TrainTicketsWebApp.Models.Dto
+@model ReservationDto
+<h2>Rezerwacja biletu:</h2>
+
+<form method="post" asp-controller="Tour" asp-action="ReservationConfirm">
+<table class="table table-bordered table-striped" style="width: 60%">
+
+    <tbody>
+        <tr>
+            <td>
+                Imię:
+            </td>
+            <td>
+                <input class="form-control border-0 shadow mb-2" name="FirstName" />
+                <span class="text-danger" asp-validation-for="FirstName"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Nazwisko:
+            </td>
+            <td>
+                <input class="form-control border-0 shadow mb-2" name="LastName" />
+                <span class="text-danger" asp-validation-for="LastName"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Adres e-mail:
+            </td>
+            <td>
+                <input class="form-control border-0 shadow mb-2" name="Email" />
+                <span class="text-danger" asp-validation-for="Email"></span>
+            </td>
+        </tr>
+    </tbody>
+
+    
+
+</table>
+<br />
+    <button class="btn btn-success" type="submit">Potwierdź rezerwację</button>
+    <input hidden name="TripId" value="@Model.TripId" />
+    <input hidden name="From" value="@Model.From" />
+    <input hidden name="To" value="@Model.To" />
+    <input hidden name="DepartureTime" value="@Model.DepartureTime" />
+    <input hidden name="ArrivalTime" value="@Model.ArrivalTime" />
+    <input hidden name="TrainType" value="@Model.TrainType" />
+    <input hidden name="To" value="@Model.To" />
+    <input hidden name="SegmentNumberFrom" value="@Model.SegmentNumberFrom" />
+    <input hidden name="SegmentNumberTo" value="@Model.SegmentNumberTo" />
+</form>

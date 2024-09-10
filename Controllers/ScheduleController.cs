@@ -40,8 +40,6 @@ namespace TrainTicketsWebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> SearchTour(GetToursFoundQuery tour)
         {
-            //var results = await _scheduleRepository.GetFoundTours(tour);
-            //return View(results);
             var result = await _mediator.Send(tour);
             return View(result);
         }
@@ -64,12 +62,5 @@ namespace TrainTicketsWebApp.Controllers
             //await _tripOccupationRepository.CreateTripOccupation(dto);
             return Json("Success");
         }
-
-        //public async Task<IActionResult> GetTripMongo() // test only
-        //{
-        //    var result = await _tripOccupationRepository.GetTrip();
-        //    var resultJson = Newtonsoft.Json.JsonConvert.SerializeObject(result);
-        //    return Json(resultJson);
-        //}
     }
 }

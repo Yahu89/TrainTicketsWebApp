@@ -62,10 +62,51 @@ public class TripOccupationRepository : ITripOccupationRepository
 		return places;
 	}
 
-	//public async Task<TripOccupation> GetTrip()
-	//{
-	//	var filter = Builders<TripOccupation>.Filter.Eq("_id", "79");
-	//	var tripOccupation = await _tripOccupation.Find(filter).FirstOrDefaultAsync();
-	//	return tripOccupation;
-	//}
+	public async Task<int> ReservePlace(ReservationDto dto)
+	{
+		var tripId = dto.TripId;
+		var filter = Builders<TripOccupation>.Filter.Eq("_id", tripId.ToString());
+		var tripOccupation = await _tripOccupation.Find(filter).FirstOrDefaultAsync();
+		var matrix = tripOccupation.OccupationMatrix;
+		int placeNumber = 0;
+
+		if (CalculatePlacesAvailable(tripOccupation.OccupationMatrix, dto.SegmentNumberFrom, dto.SegmentNumberTo) <= 0)
+        {
+			throw new Exception();
+        }
+
+		for (int i = 0; i < matrix.GetLength(1); i++)
+		{
+			int start = dto.SegmentNumberFrom - 1;
+
+			for (int j = dto.SegmentNumberFrom; j <= dto.SegmentNumberTo; j++)
+			{
+				if (matrix[j, i] != false)
+				{
+					break;
+				}
+
+				start++;
+			}
+
+			if (start == dto.SegmentNumberTo)
+			{
+				for (int k = dto.SegmentNumberFrom;  k <= dto.SegmentNumberTo; k++)
+				{
+					matrix[k, i] = true;
+				}
+
+				placeNumber = i + 1;
+
+				break;
+			}
+		}
+
+		tripOccupation.OccupationMatrix = matrix;		
+
+		await _tripOccupation.ReplaceOneAsync(filter, tripOccupation);
+
+		return placeNumber;
+    }
+
 }

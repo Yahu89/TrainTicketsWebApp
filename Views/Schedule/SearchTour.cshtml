@@ -52,7 +52,20 @@
 				<td>
 					@if (item.PlacesAvailable > 0)
 					{
-						<a class="btn btn-info" asp-controller="Tour" asp-action="Reservation">Kup bilet</a>
+						<form method="post" asp-controller="Tour" asp-action="Reservation">
+							<input hidden name="TripId" value="@item.TripId" />
+							<input hidden name="From" value="@item.From"/>
+							<input hidden name="To" value="@item.To" />
+							<input hidden name="DepartureTime" value="@item.DepartureTime" />
+							<input hidden name="ArrivalTime" value="@item.ArrivalTime" />
+							<input hidden name="TrainType" value="@item.TrainType" />
+							<input hidden name="To" value="@item.To" />
+							<input hidden name="SegmentNumberFrom" value="@item.SegmentNumberFrom" />
+							<input hidden name="SegmentNumberTo" value="@item.SegmentNumberTo" />
+						
+						<button class="btn btn-info" type="submit">Kup bilet</button>
+
+						</form>
 					}
 					else
 					{
