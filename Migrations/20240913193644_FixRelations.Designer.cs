@@ -12,8 +12,8 @@ using TrainTicketsWebApp.Database.Configuration;
 namespace TrainTicketsWebApp.Migrations
 {
     [DbContext(typeof(TrainTicketsDbContext))]
-    [Migration("20240910190310_ReservationTableAdded")]
-    partial class ReservationTableAdded
+    [Migration("20240913193644_FixRelations")]
+    partial class FixRelations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

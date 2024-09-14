@@ -27,12 +27,6 @@ namespace TrainTicketsWebApp.Controllers
 		[HttpPost]
 		public async Task<IActionResult> ReservationConfirm(ReservationDto model)
 		{
-			//if (!ModelState.IsValid)
-			//{
-			//	return View(nameof(Reservation), model);
-			//}
-
-			//int place = await _tripOccupationRepository.ReservePlace(model);
 			await _mediator.Send(new ReservationCommand(model));
 			return RedirectToAction("Index", "Home");
 		}

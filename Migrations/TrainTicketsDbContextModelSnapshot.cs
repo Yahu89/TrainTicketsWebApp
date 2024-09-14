@@ -47,7 +47,9 @@ namespace TrainTicketsWebApp.Migrations
 
                     b.Property<string>("From")
                         .IsRequired()
-                        .HasColumnType("nvarchar(100)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(100)")
+                        .HasDefaultValue("Usunięto");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -59,7 +61,9 @@ namespace TrainTicketsWebApp.Migrations
 
                     b.Property<string>("To")
                         .IsRequired()
-                        .HasColumnType("nvarchar(100)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(100)")
+                        .HasDefaultValue("Usunięto");
 
                     b.Property<string>("TrainType")
                         .IsRequired()
@@ -116,7 +120,9 @@ namespace TrainTicketsWebApp.Migrations
 
                     b.Property<string>("From")
                         .IsRequired()
-                        .HasColumnType("nvarchar(100)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(100)")
+                        .HasDefaultValue("Usunięto");
 
                     b.Property<int>("MaxSpeed")
                         .HasColumnType("int");
@@ -129,7 +135,9 @@ namespace TrainTicketsWebApp.Migrations
 
                     b.Property<string>("To")
                         .IsRequired()
-                        .HasColumnType("nvarchar(100)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(100)")
+                        .HasDefaultValue("Usunięto");
 
                     b.HasKey("Id");
 
@@ -270,7 +278,7 @@ namespace TrainTicketsWebApp.Migrations
                     b.HasOne("TrainTicketsWebApp.Database.Entities.TrainStation", "StationFrom")
                         .WithMany("RouteDetailsFrom")
                         .HasForeignKey("From")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("TrainTicketsWebApp.Database.Entities.Route", "Routes")
@@ -282,7 +290,7 @@ namespace TrainTicketsWebApp.Migrations
                     b.HasOne("TrainTicketsWebApp.Database.Entities.TrainStation", "StationTo")
                         .WithMany("RouteDetailsTo")
                         .HasForeignKey("To")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Routes");

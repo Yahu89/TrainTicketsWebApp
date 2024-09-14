@@ -1,26 +1,203 @@
-﻿@using TrainTicketsWebApp.Database.Entities
-@model List<TrainStation>
+﻿@using TrainTicketsWebApp.CQRS.Queries.Station
+@using TrainTicketsWebApp.Database.Entities
+@using TrainTicketsWebApp.Models.Dto
+@* @model List<TrainStation> *@
+@model StationsPaginationResultView
 
 <h2>Stacje:</h2>
 <br />
 
-<table class="table table-bordered table-striped" style="width: 100%">
-<thead>
-	<tr>
-		<th>
-			Stacja
-		</th>
-	</tr>
-</thead>
-<tbody>
-	@foreach (var item in Model)
-		{
-			<tr>
-				<td>
-					@item.Station
-				</td>
-			</tr>
-		}
+<table class="table table-bordered table-striped" style="width: 50%">
+    <thead>
+        <tr>
+            <th>
+                Stacja
+            </th>
+            <th>
+@*                 <a class="btn btn-danger" href="#" name="OryginalnaNazwa" onclick="onDelete(this)">Usuń</a>
+                <a class="btn btn-danger" href="#" name="ZwyczajnaNazwa" onclick="onDelete(this)">Usuń</a> *@
+            </th>
+        </tr>
+    </thead>
+    <tbody id="table">
+        
 
-</tbody>
+        @foreach (var item in Model.Stations)
+        {
+            <tr>
+                <td>
+                    @item.Station
+                </td>
+                <td>
+                    @* <a class="btn btn-danger" data-toggle="del" href="#" name="@item.Station" onclick="onDelete(this)">Usuń</a> *@
+                    <button type="button" data-toggle="modal" data-target="#warning" class="btn btn-danger form-control mb-2" onclick="onDelete(this)" name="@item.Station">Usuń</button>
+                </td>
+            </tr>
+        }
+
+    </tbody>
 </table>
+
+@* <form method="POST" id="form"> *@
+<div class="modal fade" id="warning" tabindex="-1" aria-labelledby="warningLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="warningLabel">Ostrzeżenie</h1>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                    <h6 id="warnContent">Czy na pewno chcesz usunąć element?</h6>
+            </div>
+            <div class="modal-footer" id="result">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Nie</button>
+                    <button id="submitButton" type="button" class="btn btn-danger">Tak</button>
+            </div>
+        </div>
+    </div>
+</div>
+@* </form> *@
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <nav aria-label="...">
+                <ul class="pagination">
+                    @if (Model.CurrentPage > 1)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="/Admin/Stations?currentPage=@(Model.CurrentPage-1)">Poprzednia</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#">Poprzednia</a>
+                        </li>
+                    }
+
+                    @for (int i = 1; i <= Model.TotalPages; i++)
+                    {
+                        if (Model.CurrentPage == i)
+                        {
+                            <li class="page-item active">
+                                <a class="page-link" href="/Admin/Stations?currentPage=@i"> <span class="sr-only">@i</span></a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="page-item">
+                                <a class="page-link" href="/Admin/Stations?currentPage=@i"> <span class="sr-only">@i</span></a>
+                            </li>
+                        }
+                    }
+
+                    @if (Model.CurrentPage < Model.TotalPages)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="/Admin/Stations?currentPage=@(Model.CurrentPage+1)">Następna</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#">Następna</a>
+                        </li>
+                    }
+
+                </ul>
+            </nav>
+        </div>
+        <div class="col-md-3">
+            <a class="btn btn-secondary" asp-controller="Admin" asp-action="Index">Powrót</a>
+        </div>
+        <div class="col-md-3">
+            <a class="btn btn-info" asp-controller="Admin" asp-action="AddStation">Dodaj stację</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+
+            $('#submitButton').click(() => {
+                onSubmit(this);
+            });
+
+            var stationToDelete = {};
+
+        });
+
+        function onSubmit(e) {
+            let submitUrl = '/Admin/DeleteStation';
+            //let stationToDelete = $(e).attr('name');
+            $.ajax({
+                url: submitUrl,
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(stationToDelete),
+                success: function (response) {
+                    window.location.href = response.redirectToUrl;
+                },
+                error: function (error) {
+                    window.location.href = response.redirectToUrl;
+                }
+            });
+        }
+
+        function onDelete(e) {
+
+            stationToDelete = $(e).attr('name');
+
+            (async () => {
+                try {
+                    const isUsed = await isStationAlreadyUsed(stationToDelete);
+                    const result = $('#result');
+                    result.html(`<button type="button" class="btn btn-secondary" data-dismiss="modal">Nie</button>
+                        <button id="submitButton" type="button" class= "btn btn-danger">Tak</button>`);
+
+                    $('#submitButton').click(() => {
+                        onSubmit(this);
+                    });
+
+                    if (isUsed) {
+                        result.html('<button type="button" class="btn btn-secondary" data-dismiss="modal">Rozumiem</button>');
+                        $('#warnContent').text('Stacja ' + stationToDelete + ' jest powiązana z innymi encjami. W pierwszej kolejności wymagane jest usunięcie encji powiązanych.');
+                    }
+                    else {
+                        $('#warnContent').text('Czy na pewno usunąć stację ' + stationToDelete + '?');
+                    }
+                    
+                    //console.log('isUsed: ' + isUsed);
+                } catch (error) {
+                    console.error('Błąd: ', error);
+                }
+            })();
+            
+            
+        }
+
+        async function isStationAlreadyUsed(station) {
+            const data = '/Admin/UsageChecking'; //$('#form').data('url');
+            console.log(station + ' ' + data);
+
+            try {
+                const response = await $.ajax({
+                    url: data,
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(station)
+                });
+
+                console.log('Response: ' + response);
+                return response;
+            } catch (error) {
+                console.error('Błąd: ', error);
+                throw error; 
+            }
+        }
+
+    </script>
+}

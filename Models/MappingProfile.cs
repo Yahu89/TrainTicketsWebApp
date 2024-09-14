@@ -42,5 +42,7 @@ public class MappingProfile : Profile
         CreateMap<Schedule, ScheduleDto>().ReverseMap();
 
         CreateMap<ReservationDto, Reservation>().ReverseMap();
+
+        CreateMap<TrainStation, TrainStationDto>().ReverseMap();
     }
 }

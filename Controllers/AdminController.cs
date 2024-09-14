@@ -13,16 +13,20 @@ using TrainTicketsWebApp.CQRS.Queries.TrainType;
 using TrainTicketsWebApp.CQRS.Queries.Trip;
 using TrainTicketsWebApp.Database.Entities;
 using TrainTicketsWebApp.Models.Dto;
+using TrainTicketsWebApp.Repositories.Interface;
 
 namespace TrainTicketsWebApp.Controllers
 {
     public class AdminController : Controller
     {
         private readonly IMediator _mediator;
+        private readonly ITrainStationRepository _trainStationRepository;
 
-        public AdminController(IMediator mediator)
+        public AdminController(IMediator mediator, 
+                                ITrainStationRepository trainStationRepository)
         {
             _mediator = mediator;
+            _trainStationRepository = trainStationRepository;
         }
 
         [HttpGet]
@@ -58,9 +62,9 @@ namespace TrainTicketsWebApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Stations()
+        public async Task<IActionResult> Stations(int currentPage = 1)
         {
-            var stations = await _mediator.Send(new GetAllStationsQuery());
+            var stations = await _mediator.Send(new GetAllStationsQuery(currentPage));
             return View(stations);
         }
 
@@ -188,6 +192,28 @@ namespace TrainTicketsWebApp.Controllers
         {
             var list = await _mediator.Send(new GetAllTripsQuery(3, currentPageNumber: currentPageNumber));
             return View(list);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UsageChecking([FromBody]string stationToDelete)
+        {
+            var isUsed = await _trainStationRepository.IsStationAlreadyUsed(stationToDelete);
+            return Json(isUsed);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteStation([FromBody]string station)
+        {
+            try
+            {
+                await _mediator.Send(new DeleteStationCommand(station));
+                return Json(new { redirectToUrl = Url.Action(nameof(Stations)) });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { redirectToUrl = Url.Action("Error", "Home")});
+            }
+            
         }
 
     }

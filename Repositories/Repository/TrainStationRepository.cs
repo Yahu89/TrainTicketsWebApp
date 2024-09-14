@@ -21,7 +21,22 @@ public class TrainStationRepository : ITrainStationRepository
         return result;
     }
 
-    public async Task Create(TrainStation model)
+    public async Task<int> GetAllStationsQty()
+    {
+        return await _dbContex.TrainStations.CountAsync();
+    }
+	public async Task<List<TrainStation>> GetAllPaginated(int currentPage = 1, int itemsPerPage = 10)
+	{
+        var result = _dbContex.TrainStations.OrderBy(x => x.Station)
+                                            .Skip((currentPage - 1) * itemsPerPage)
+                                            .Take(itemsPerPage)
+                                            .ToList();
+
+		return result;
+	}
+
+
+	public async Task Create(TrainStation model)
     {
         if (model is null)
         {
@@ -30,6 +45,38 @@ public class TrainStationRepository : ITrainStationRepository
 
         _dbContex.TrainStations.Add(model);
         await _dbContex.SaveChangesAsync();
+    }
+
+    public async Task<int> CreateRange(List<TrainStation> model)
+    {
+        if (model is null)
+        {
+            throw new ArgumentNullException();
+        }
+
+        int counter = 0;
+
+        foreach (var item in model)
+        {
+            if (_dbContex.TrainStations.Contains(item))
+            {
+                continue;
+            }
+
+            _dbContex.TrainStations.Add(item);
+            counter++;
+        }
+
+        try
+        {
+            await _dbContex.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            throw;
+        }
+
+        return counter;
     }
 
     public async Task<RouteDetailsCreationView> GetRouteDetailsCreationView()
@@ -65,5 +112,20 @@ public class TrainStationRepository : ITrainStationRepository
         }).ToListAsync();
 
         return routes;
+    }
+
+    public async Task<bool> IsStationAlreadyUsed(string station)
+    {
+        var stations = await _dbContex.RouteDetails.Where(x => x.From.Contains(station) ||  x.To.Contains(station))
+                                                    .CountAsync();
+
+        return stations > 0;
+    }
+
+    public async Task Delete(string station)
+    {
+        TrainStation data = new TrainStation() { Station = station };
+        _dbContex.TrainStations.Remove(data);
+        await _dbContex.SaveChangesAsync();
     }
 }

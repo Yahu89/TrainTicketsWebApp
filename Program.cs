@@ -40,9 +40,9 @@ builder.Services.AddValidatorsFromAssemblyContaining<CreateTrainTypeCommandValid
 builder.Services.AddValidatorsFromAssemblyContaining<CreateRouteCommandValidator>()
 							.AddFluentValidationAutoValidation()
 							.AddFluentValidationClientsideAdapters();
-builder.Services.AddValidatorsFromAssemblyContaining<ReservationValidator>()
-							.AddFluentValidationAutoValidation()
-							.AddFluentValidationClientsideAdapters();
+//builder.Services.AddValidatorsFromAssemblyContaining<ReservationValidator>()
+//							.AddFluentValidationAutoValidation()
+//							.AddFluentValidationClientsideAdapters();
 
 builder.Services.AddMediatR(typeof(GetAllStationsQuery));
 

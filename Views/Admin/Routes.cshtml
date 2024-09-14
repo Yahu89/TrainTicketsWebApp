@@ -5,7 +5,7 @@
 <h2>Trasy:</h2>
 <br />
 
-<table class="table table-bordered table-striped" style="width: 100%">
+<table class="table table-bordered table-striped" style="width: 70%">
 	<thead>
 		<tr>
 			<th>
@@ -30,7 +30,8 @@
 					@item.Description
 				</td>
 				<td>
-					<a class="btn btn-info" asp-controller="Admin" asp-action="RouteDetail" asp-route-routeName="@item.Name">Pokaż szczegóły</a>
+					<a class="btn btn-info mb-auto" asp-controller="Admin" asp-action="RouteDetail" asp-route-routeName="@item.Name">Pokaż szczegóły</a>
+					<a class="btn btn-danger" asp-controller="Admin" asp-action="RouteDetail" asp-route-routeName="@item.Name">Usuń</a>
 				</td>
 			</tr>
 		}

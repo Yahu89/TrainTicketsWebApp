@@ -55,6 +55,8 @@ public class TrainTicketsDbContext : DbContext
             e.Property(x => x.RouteId).IsRequired();
             e.Property(x => x.Distance).IsRequired();
             e.Property(x => x.MaxSpeed).IsRequired();
+            e.Property(x => x.From).HasDefaultValue("Usunięto");
+            e.Property(x => x.To).HasDefaultValue("Usunięto");
         });
 
         modelBuilder.Entity<Schedule>(e =>
@@ -65,6 +67,8 @@ public class TrainTicketsDbContext : DbContext
             e.HasOne(x => x.StationTo).WithMany(x => x.ScheduleStationTo).HasForeignKey(x => x.To);
             e.Property(x => x.DepartureTime).IsRequired();
             e.Property(x => x.ArrivalTime).IsRequired();
+            //e.Property(x => x.StationFrom).HasDefaultValue("Usunięto");
+            //e.Property(x => x.StationTo).HasDefaultValue("Usunięto");
         });
 
         modelBuilder.Entity<Trip>(e =>
@@ -91,6 +95,8 @@ public class TrainTicketsDbContext : DbContext
             e.HasOne(x => x.Trip).WithMany(x => x.Reservations).HasForeignKey(x => x.TripId);
             e.HasOne(x => x.TrainStationFrom).WithMany(x => x.ReservationFrom).HasForeignKey(x => x.From);
             e.HasOne(x => x.TrainStationTo).WithMany(x => x.ReservationTo).HasForeignKey (x => x.To);
+            e.Property(x => x.From).HasDefaultValue("Usunięto");
+            e.Property(x => x.To).HasDefaultValue("Usunięto");
         });
     }
 }
