@@ -89,4 +89,16 @@ public class TripRepository : ITripRepository
 
 		return trainTypes;
 	}
+
+	public async Task<bool> IsRouteInTripAlreadyUsed(int routeId)
+	{
+		return await _dbContex.Trips.Where(x => x.RouteId == routeId).AnyAsync();
+	}
+
+	public async Task Delete(int tripId)
+	{
+		var trip = _dbContex.Trips.FirstOrDefault(x => x.Id == tripId);
+		_dbContex.Trips.Remove(trip);
+		await _dbContex.SaveChangesAsync();
+	}
 }

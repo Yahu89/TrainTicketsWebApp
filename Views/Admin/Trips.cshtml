@@ -49,13 +49,33 @@
                     @item.TrainType
                 </td>
                 <td>
-                    <a class="btn btn-danger" asp-controller="Admin" asp-action="Delete">Usuń</a>
+                    <button class="btn btn-danger" data-toggle="modal" data-target="#warning" id="trip" name="@item.Id" onclick="takeId(this)">Usuń</button>
                 </td>
             </tr>
         }
 
     </tbody>
 </table>
+
+
+<div class="modal fade" id="warning" tabindex="-1" aria-labelledby="warningLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="warningLabel">Ostrzeżenie</h1>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h6 id="warnContent">Czy na pewno chcesz usunąć przejazd?</h6>
+            </div>
+            <div class="modal-footer" id="result">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Nie</button>
+                <button id="submitButton" type="submit" class="btn btn-danger" onclick="onSubmit(this)">Tak</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <nav aria-label="...">
     <ul class="pagination">
@@ -109,3 +129,40 @@
         <a class="btn btn-secondary" asp-controller="Admin" asp-action="Index">Wróć do menu</a>
     </div>
 </div>
+
+
+@section Scripts 
+{
+    <script>
+        $(document).ready(function () {
+            // $('#submitButton').click(() => {
+            //     onSubmit(this);
+            // });
+        });
+
+        var tripId = {};
+
+        function takeId(c) {
+            tripId = $(c).attr('name');
+            return tripId;
+        }
+
+        function onSubmit(e) {
+            // tripId = takeId(c);
+            submitUrl = '/Admin/DeleteTrip';
+            console.log(tripId);
+            $.ajax({
+                url: submitUrl,
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(tripId),
+                success: function (response) {
+                    window.location.href = response.redirectToUrl;
+                },
+                error: function (error) {
+                    window.location.href = response.redirectToUrl;
+                }
+            });
+        }
+    </script>
+}

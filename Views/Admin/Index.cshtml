@@ -3,43 +3,48 @@
 
 <center><h3>Tworzenie</h3></center>
 
-<br />
-
 <div class="container">
-    <div class="row">
-        <a class="btn btn-success mb-2" asp-controller="Admin" asp-action="AddStation">Dodaj stację</a>
+    <div class="row justify-content-center align-items-center" style="height: 300px;">
+        <div class="col-3 d-flex justify-content-center">
+            <a class="btn btn-success custom-height w-100 justify-content-center" asp-controller="Admin" asp-action="AddStation"><h4>Dodaj Stację</h4></a>
+        </div>
+        <div class="col-3 d-flex justify-content-center">
+            <a class="btn btn-success custom-height w-100 justify-content-center" asp-controller="Admin" asp-action="AddTrainType"><h4>Dodaj Rodzaj Pociągu</h4></a>
+        </div>
+        <div class="col-3 d-flex justify-content-center">
+            <a class="btn btn-success custom-height w-100 justify-content-center" asp-controller="Admin" asp-action="AddRoute"><h4>Dodaj Trasę</h4></a>
+        </div>
     </div>
-    <div class="row">
-        <a class="btn btn-success mb-2" asp-controller="Admin" asp-action="AddTrainType">Dodaj typ pociągu</a>
-    </div>
-    <div class="row">
-        <a class="btn btn-success mb-2" asp-controller="Admin" asp-action="AddRoute">Dodaj trasę</a>
-    </div>
-    <div class="row">
-        <a class="btn btn-success mb-2" asp-controller="Admin" asp-action="AddRouteDetails">Skonfiguruj trasę</a>
-    </div>
-    <div class="row">
-        <a class="btn btn-success mb-2" asp-controller="Admin" asp-action="AddTrips">Dodaj przejazd</a>
+
+    <div class="row justify-content-center align-items-center" style="height: 300px;">
+        <div class="col-3 d-flex justify-content-center">
+            <a class="btn btn-success custom-height w-100 justify-content-center" asp-controller="Admin" asp-action="AddRouteDetails"><h4>Skonfiguruj Trasę</h4></a>
+        </div>
+        <div class="col-3 d-flex justify-content-center">
+            <a class="btn btn-success custom-height w-100 justify-content-center" asp-controller="Admin" asp-action="AddTrips"><h4>Dodaj Przejazd</h4></a>
+        </div>
     </div>
 </div>
-
 <br />
 
 <center><h3>Widoki</h3></center>
 
-<br />
-
 <div class="container">
-    <div class="row">
-        <a class="btn btn-info mb-2" asp-controller="Admin" asp-action="Stations">Pokaż stacje</a>
+    <div class="row justify-content-center align-items-center" style="height: 300px;">
+        <div class="col-3 d-flex justify-content-center">
+            <a class="btn btn-info custom-height w-100 justify-content-center" asp-controller="Admin" asp-action="Stations"><h4>Pokaż Stacje</h4></a>
+        </div>
+        <div class="col-3 d-flex justify-content-center">
+            <a class="btn btn-info custom-height w-100 justify-content-center" asp-controller="Admin" asp-action="TrainTypes"><h4>Pokaż Rodzaje Pociągów</h4></a>
+        </div>
+        <div class="col-3 d-flex justify-content-center">
+            <a class="btn btn-info custom-height w-100 justify-content-center" asp-controller="Admin" asp-action="Routes"><h4>Pokaż Trasy</h4></a>
+        </div>
     </div>
-    <div class="row">
-        <a class="btn btn-info mb-2" asp-controller="Admin" asp-action="TrainTypes">Pokaż rodzaje pociągów</a>
-    </div>
-    <div class="row">
-        <a class="btn btn-info mb-2" asp-controller="Admin" asp-action="Routes">Pokaż trasy</a>
-    </div>
-    <div class="row">
-        <a class="btn btn-info mb-2" asp-controller="Admin" asp-action="Trips">Pokaż przejazdy</a>
+
+    <div class="row justify-content-center align-items-center" style="height: 300px;">
+        <div class="col-3 d-flex justify-content-center">
+            <a class="btn btn-info custom-height w-100 justify-content-center" asp-controller="Admin" asp-action="Trips"><h4>Pokaż Trasy</h4></a>
+        </div>
     </div>
 </div>

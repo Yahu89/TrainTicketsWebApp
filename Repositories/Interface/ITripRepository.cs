@@ -9,4 +9,6 @@ public interface ITripRepository
 	Task<TripCreationView> GetTripCreationView();
 	Task<List<Trip>> GetAllTripsPaginated(int page, int pageSize);
 	Task<int> AllTripsQty();
+	Task<bool> IsRouteInTripAlreadyUsed(int routeId);
+	Task Delete(int tripId);
 }

@@ -30,11 +30,118 @@
 					@item.Description
 				</td>
 				<td>
-					<a class="btn btn-info mb-auto" asp-controller="Admin" asp-action="RouteDetail" asp-route-routeName="@item.Name">Pokaż szczegóły</a>
-					<a class="btn btn-danger" asp-controller="Admin" asp-action="RouteDetail" asp-route-routeName="@item.Name">Usuń</a>
+					<a class="btn btn-info" asp-controller="Admin" asp-action="RouteDetail" asp-route-routeName="@item.Name">Pokaż szczegóły</a>
+                    <button type="button" data-send="@item.Id" data-toggle="modal" data-target="#warning" class="btn btn-danger form-control mb-2" onclick="onDelete(this)" name="@item.Name">Usuń</button>
 				</td>
 			</tr>
 		}
 
 	</tbody>
 </table>
+
+<div class="modal fade" id="warning" tabindex="-1" aria-labelledby="warningLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="warningLabel">Ostrzeżenie</h1>
+				<button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<h6 id="warnContent"></h6>
+			</div>
+			<div class="modal-footer" id="result">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Nie</button>
+				<button id="submitButton" type="button" class="btn btn-danger">Tak</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+@section Scripts
+   {
+    <script>
+        $(document).ready(function () {
+
+            $('#submitButton').click(() => {
+                onSubmit(this);
+            });
+
+            var routeToDelete = {};
+            var routeIdToDelete = {};
+
+        });
+
+        function onSubmit(e) {
+            let submitUrl = '/Admin/DeleteRoute';
+            //let stationToDelete = $(e).attr('name');
+            $.ajax({
+                url: submitUrl,
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(routeIdToDelete),
+                success: function (response) {
+                    window.location.href = response.redirectToUrl;
+                },
+                error: function (error) {
+                    window.location.href = response.redirectToUrl;
+                }
+            });
+        }
+
+        function onDelete(e) {
+
+            routeToDelete = $(e).attr('name');
+            routeIdToDelete = $(e).attr('data-send');
+
+            console.log(routeIdToDelete);
+
+            (async () => {
+                try {
+                    const isUsed = await isRouteAlreadyUsed(routeIdToDelete);
+                    const result = $('#result');
+                    result.html(`<button type="button" class="btn btn-secondary" data-dismiss="modal">Nie</button>
+                                <button id="submitButton" type="button" class="btn btn-danger">Tak</button>`);
+
+                    $('#submitButton').click(() => {
+                        onSubmit(this);
+                    });
+
+                    if (isUsed) {
+                        result.html('<button type="button" class="btn btn-secondary" data-dismiss="modal">Rozumiem</button>');
+                        $('#warnContent').text('Trasa ' + routeToDelete + ' jest powiązana z innymi encjami. W pierwszej kolejności wymagane jest usunięcie encji powiązanych.');
+                    }
+                    else {
+                        $('#warnContent').text('Czy na pewno usunąć trasę ' + routeToDelete + '?');
+                    }
+
+                    //console.log('isUsed: ' + isUsed);
+                } catch (error) {
+                    console.error('Błąd: ', error);
+                }
+            })();
+
+
+        }
+
+        async function isRouteAlreadyUsed(route) {
+            const data = '/Admin/RouteUsageChecking'; //$('#form').data('url');
+            console.log(route + ' ' + data);
+
+            try {
+                const response = await $.ajax({
+                    url: data,
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(route)
+                });
+
+                console.log('Response: ' + response);
+                return response;
+            } catch (error) {
+                console.error('Błąd: ', error);
+                throw error;
+            }
+        }
+
+    </script>
+}

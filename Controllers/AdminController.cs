@@ -21,12 +21,15 @@ namespace TrainTicketsWebApp.Controllers
     {
         private readonly IMediator _mediator;
         private readonly ITrainStationRepository _trainStationRepository;
+        private readonly ITripRepository _tripRepository;
 
         public AdminController(IMediator mediator, 
-                                ITrainStationRepository trainStationRepository)
+                                ITrainStationRepository trainStationRepository,
+                                ITripRepository tripRepository)
         {
             _mediator = mediator;
             _trainStationRepository = trainStationRepository;
+            _tripRepository = tripRepository;
         }
 
         [HttpGet]
@@ -52,7 +55,7 @@ namespace TrainTicketsWebApp.Controllers
             try
             {
 				await _mediator.Send(dto);
-				return View(nameof(Stations), await _mediator.Send(new GetAllStationsQuery()));
+				return View(nameof(Stations), await _mediator.Send(new GetAllStationsQuery(1)));
 			}
             catch (Exception ex)
             {
@@ -195,9 +198,16 @@ namespace TrainTicketsWebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UsageChecking([FromBody]string stationToDelete)
+        public async Task<IActionResult> StationUsageChecking([FromBody]string stationToDelete)
         {
             var isUsed = await _trainStationRepository.IsStationAlreadyUsed(stationToDelete);
+            return Json(isUsed);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RouteUsageChecking([FromBody]int routeId)
+        {
+            var isUsed = await _tripRepository.IsRouteInTripAlreadyUsed(routeId);
             return Json(isUsed);
         }
 
@@ -214,6 +224,34 @@ namespace TrainTicketsWebApp.Controllers
                 return Json(new { redirectToUrl = Url.Action("Error", "Home")});
             }
             
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteRoute([FromBody]int routeId)
+        {
+            try
+            {
+                await _mediator.Send(new DeleteRouteCommand(routeId));
+                return Json(new { redirectToUrl = Url.Action(nameof(Routes)) });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { redirectToUrl = Url.Action("Error", "Home") });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteTrip([FromBody]int tripId)
+        {
+            try
+            {
+                await _mediator.Send(new DeleteTripCommand(tripId));
+                return Json(new { redirectToUrl = Url.Action(nameof(Trips)) });
+            }
+            catch(Exception ex)
+            {
+                return Json(new { redirectToUrl = Url.Action("Error", "Home") });
+            }
         }
 
     }

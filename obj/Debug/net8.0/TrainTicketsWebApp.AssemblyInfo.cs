@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TrainTicketsWebApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+04af60ee19df0c1a60841320c4b7c7777de06bfa")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6432046d69f605efb52cba33e293d3e0a0990baa")]
 [assembly: System.Reflection.AssemblyProductAttribute("TrainTicketsWebApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TrainTicketsWebApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

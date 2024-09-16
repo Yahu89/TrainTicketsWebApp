@@ -47,7 +47,7 @@ public class TripOccupationRepository : ITripOccupationRepository
 		{
 			for (int j = startSegment; j <= stopSegment; j++)
 			{
-				if (matrix[j, i] != false)
+				if (matrix[j - 1, i] != false)
 				{
 					break;
 				}
@@ -81,7 +81,7 @@ public class TripOccupationRepository : ITripOccupationRepository
 
 			for (int j = dto.SegmentNumberFrom; j <= dto.SegmentNumberTo; j++)
 			{
-				if (matrix[j, i] != false)
+				if (matrix[j - 1, i] != false)
 				{
 					break;
 				}
@@ -93,7 +93,7 @@ public class TripOccupationRepository : ITripOccupationRepository
 			{
 				for (int k = dto.SegmentNumberFrom;  k <= dto.SegmentNumberTo; k++)
 				{
-					matrix[k, i] = true;
+					matrix[k - 1, i] = true;
 				}
 
 				placeNumber = i + 1;
