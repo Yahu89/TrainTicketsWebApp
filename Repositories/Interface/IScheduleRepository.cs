@@ -7,5 +7,5 @@ public interface IScheduleRepository
 {
 	Task CreateRange(List<Schedule> schedules);
 	Task<List<ScheduleDto>> GenerateSchedules(List<Trip> trips);
-	Task<List<SearchTourResult>> GetFoundTours(SearchTourDto schedules);
+	Task<List<SearchTourResult>> GetFoundTours(SearchTourModelView schedules);
 }

@@ -4,17 +4,29 @@ using TrainTicketsWebApp.Repositories.Interface;
 
 namespace TrainTicketsWebApp.CQRS.Queries.Tour;
 
-public class GetToursFoundQueryHandler : IRequestHandler<GetToursFoundQuery, List<SearchTourResult>>
+public class GetToursFoundQueryHandler : IRequestHandler<GetToursFoundQuery, SearchTourModelView>
 {
 	private readonly IScheduleRepository _scheduleRepository;
+    private readonly ITrainStationRepository _trainStationRepository;
 
-	public GetToursFoundQueryHandler(IScheduleRepository scheduleRepository)
+    public GetToursFoundQueryHandler(IScheduleRepository scheduleRepository, ITrainStationRepository trainStationRepository)
     {
 		_scheduleRepository = scheduleRepository;
-	}
-    public async Task<List<SearchTourResult>> Handle(GetToursFoundQuery request, CancellationToken cancellationToken)
+        _trainStationRepository = trainStationRepository;
+    }
+    public async Task<SearchTourModelView> Handle(GetToursFoundQuery request, CancellationToken cancellationToken)
 	{
+        var fillComboBoxesForSearchingTour = await _trainStationRepository.GetRouteDetailsCreationView();
 		var result = await _scheduleRepository.GetFoundTours(request);
-		return result;
+
+        SearchTourModelView model = new SearchTourModelView()
+        {
+            SearchResultList = result,
+            Routes = fillComboBoxesForSearchingTour.Routes,
+            From = fillComboBoxesForSearchingTour.From,
+            To = fillComboBoxesForSearchingTour.To
+        };
+
+		return model;
 	}
 }

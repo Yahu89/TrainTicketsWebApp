@@ -32,35 +32,17 @@ namespace TrainTicketsWebApp.Controllers
 		}
 
         [HttpGet]
-        public async Task<IActionResult> Search()
+        public async Task<IActionResult> Search(SearchTourModelView model)
         {
-            return View(await _mediator.Send(new SearchingTourViewQuery()));
+			return View(await _mediator.Send(new GetToursFoundQuery(model)));
         }
 
         [HttpPost]
-        public async Task<IActionResult> SearchTour(GetToursFoundQuery tour)
+        public async Task<IActionResult> SearchTour(SearchTourModelView tour)
         {
-            var result = await _mediator.Send(tour);
-            return View(result);
+            var result = await _mediator.Send(new GetToursFoundQuery(tour.SearchTourData));
+            return View(nameof(Search), result);
         }
 
-        public async Task<IActionResult> CreateTripMongo()
-        {
-            //TripOccupation dto = new TripOccupation(10, 10)
-            //{
-            //    TripId = "46",
-            //};
-
-            //BsonDocument doc = new BsonDocument()
-            //{
-            //    { "Name", "Krzychu" },
-            //    { "LastName", "Yahu" }
-            //};
-
-            //await _tripOccupationRepository.CreateDocument(doc);
-
-            //await _tripOccupationRepository.CreateTripOccupation(dto);
-            return Json("Success");
-        }
     }
 }

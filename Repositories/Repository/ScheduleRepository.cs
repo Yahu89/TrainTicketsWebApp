@@ -68,16 +68,16 @@ public class ScheduleRepository : IScheduleRepository
 		return schedules;
 	}
 
-	public async Task<List<SearchTourResult>> GetFoundTours(SearchTourDto tour)
+	public async Task<List<SearchTourResult>> GetFoundTours(SearchTourModelView tour)
 	{
 		List<ScheduleDto> toursByDateAndFrom = new List<ScheduleDto>();
 
-		var day = DateTime.Parse($"{tour.DepartureDay.ToString("yyyy-MM-dd")} {tour.DepartureTime}");
+		var day = DateTime.Parse($"{tour.SearchTourData.DepartureDay.ToString("yyyy-MM-dd")} {tour.SearchTourData.DepartureTime}");
 		var endOfDay = new DateTime(day.Year, day.Month, day.Day, 23, 59, 0);
 
 		toursByDateAndFrom = _mapper.Map<List<ScheduleDto>>(await _dbContex.Schedules.Include(x => x.Trip)
 			.Where(x => x.DepartureTime >= day && x.DepartureTime <= endOfDay)			
-			.Where(x => x.From.Equals(tour.From)).ToListAsync());
+			.Where(x => x.From.Equals(tour.SearchTourData.From)).ToListAsync());
 
 		if (!toursByDateAndFrom.Any() )
 		{
@@ -92,7 +92,7 @@ public class ScheduleRepository : IScheduleRepository
 													 .ThenInclude(x => x.Route)
 													 .ThenInclude(x => x.RouteDetails)
 													 .Where(x => x.TripId == toursByDateAndFrom[i].TripId)
-													 .FirstOrDefaultAsync(x => x.To.Equals(tour.To));
+													 .FirstOrDefaultAsync(x => x.To.Equals(tour.SearchTourData.To));
 
 			if (toursByTo == null)
 			{
@@ -102,7 +102,7 @@ public class ScheduleRepository : IScheduleRepository
 			SearchTourResult element = new SearchTourResult()
 			{
 				TripId = toursByDateAndFrom[i].TripId,
-				From = tour.From,
+				From = tour.SearchTourData.From,
 				To = toursByTo.To,
 				DepartureTime = toursByDateAndFrom[i].DepartureTime,
 				ArrivalTime = toursByTo.ArrivalTime,

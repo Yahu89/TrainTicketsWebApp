@@ -2,7 +2,6 @@
 
 public class SearchTourDto
 {
-    //public int TripId { get; set; }
     public string From { get; set; }
     public string To { get; set; }
     public TimeSpan DepartureTime { get; set; }
