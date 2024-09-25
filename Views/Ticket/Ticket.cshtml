@@ -1,0 +1,173 @@
+﻿@using TrainTicketsWebApp.Models.Dto
+@model List<ReservationDto>
+
+<h2>Wyszukiwarka rezerwacji:</h2>
+<br />
+
+<form class="row" asp-action="SearchReservation" asp-controller="Ticket" method="post">
+<table class="table table-bordered table-striped" style="width: 60%">
+    <thead>
+        <tr>
+            <th>
+                Nr rezerwacji:
+            </th>
+            <th>
+                Adres e-mail:
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+    <td>
+        <input class="form-control border-0 shadow mb-2" id="resId" type="text" name="ReservationId"/>
+        <span class="text-danger" id="resIdWarn"></span>
+    </td>
+    <td>
+        <input class="form-control border-0 shadow mb-2" id="mail" type="text" name="Email"/>
+        <span class="text-danger" id="mailWarn"></span>
+    </td>
+    <td>
+        <button class="btn btn-info" type="submit" id="submitButton">Szukaj rezerwacji</button>
+    </td>
+    </tbody>
+</table>
+<p style="color: red">*Podaj nr rezerwacji albo adres e-mail</p>
+<br />
+
+@if (Model.Count > 0)
+{
+    <h4>Znalezione rezerwacje: </h4>
+
+    <table class="table table-bordered table-striped" style="width: 100%">
+        <thead>
+            <tr>
+                <th>
+                    Nr rezerwacji
+                </th>
+                <th>
+                    Imię i nazwisko
+                </th>
+                <th>
+                    Adres e-mail
+                </th>
+                <th>
+                    Skąd
+                </th>
+                <th>
+                    Dokąd
+                </th>
+                <th>
+                    Data odjazdu
+                </th>
+                <th>
+                    Data przyjazdu
+                </th>
+                <th>
+                    Rodzaj pociągu
+                </th>
+                <th>
+                    Miejsce
+                </th>
+                <th>
+
+                </th>
+                <th>
+
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in Model)
+            {
+                <tr>
+
+                
+                <td>
+                    @item.Id
+                </td>
+            <td>
+                    @item.FirstName  @item.LastName
+            </td>
+            <td>
+                    @item.Email
+            </td>
+            <td>
+                    @item.From
+            </td>
+            <td>
+                    @item.To
+            </td>
+            <td>
+                    @item.DepartureTime
+            </td>
+            <td>
+                    @item.ArrivalTime
+            </td>
+            <td>
+                    @item.TrainType
+            </td>
+            <td>
+                    @item.SeatNumber
+            </td>
+            <td>
+                    <a class="btn btn-secondary" asp-controller="Ticket" asp-action="Index">Pobierz bilet</a>
+            </td>
+            <td>
+                    <a class="btn btn-danger" asp-controller="Ticket" asp-action="Index">Anuluj rezerwację</a>
+            </td>
+                    </tr>
+            }
+        </tbody>
+        </table>
+        }
+</form>
+
+@*         @section Scripts
+    {
+        <script>
+            $(document).ready(function () {
+                let zm = $('#test').val();
+                console.log(zm);
+
+                $('#submitButton').click(() => {
+                    onSubmit();
+                });
+
+                console.log('dsfdg');
+
+            });
+
+            // const onSubmit = () => {
+            //     console.log('Naciśnięto guzik');
+            // }
+
+            const onSubmit = () => {
+                let dataToSend = {};
+                let mailData = $('#mail').val();
+                let res = $('#resId').val();
+
+                console.log(mailData);
+
+                dataToSend.reservationId = res;
+                dataToSend.email = mailData;
+
+                //console.log(dataToSend);
+
+                $.ajax({
+                    url: '/Ticket/SearchReservation/',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(dataToSend),
+                    success: function (response) {
+                        window.location.href = response.redirectToUrl;
+                    },
+                    error: function (error) {
+
+                    }
+                });
+            }
+        </script>
+        } *@

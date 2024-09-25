@@ -30,5 +30,6 @@ namespace TrainTicketsWebApp.Controllers
 			await _mediator.Send(new ReservationCommand(model));
 			return RedirectToAction("Index", "Home");
 		}
+
 	}
 }

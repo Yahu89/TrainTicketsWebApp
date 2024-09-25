@@ -28,6 +28,7 @@ builder.Services.AddScoped<ITripRepository, TripRepository>();
 builder.Services.AddScoped<IScheduleRepository, ScheduleRepository>();
 builder.Services.AddSingleton<ITripOccupationRepository, TripOccupationRepository>();
 builder.Services.AddScoped<ITourRepository, TourRepository>();
+builder.Services.AddScoped<ITicketRepository, TicketRepository>();
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
